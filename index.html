@@ -151,8 +151,9 @@ body.editing [contenteditable]:empty::before{content:attr(data-placeholder);colo
   position:fixed;bottom:20px;right:20px;z-index:200;
   width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;border:none;
   font-size:18px;cursor:pointer;box-shadow:0 4px 14px rgba(37,99,235,.3);
-  transition:all .15s;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;display:none;align-items:center;justify-content:center;
 }
+.edit-btn.show{display:flex}
 .edit-btn:hover{transform:scale(1.08)}
 .edit-btn.active{background:#ef4444}
 
@@ -455,6 +456,17 @@ function render(){
   document.body.appendChild(editBtn);
   document.body.appendChild(editPanel);
 
+  // ---- 编辑入口：仅站长可见 ----
+  function showEditBtn(){ document.getElementById('editBtn').classList.add('show'); }
+  function checkAdminAccess(){
+    if(sessionStorage.getItem('edit_authed')==='1' || location.hash.includes('admin')) showEditBtn();
+  }
+  checkAdminAccess();
+  // 快捷键 Ctrl+Shift+E 唤出
+  document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.shiftKey&&e.key==='E'){e.preventDefault();showEditBtn();}});
+  // hash 变化时检查
+  window.addEventListener('hashchange',checkAdminAccess);
+
   // ---- 密码弹窗 ----
   const pwOverlay=E('div',{className:'pw-overlay',id:'pwOverlay'},
     E('div',{className:'pw-box'},
@@ -535,6 +547,7 @@ function exitEdit(){
   const btn=document.getElementById('editBtn');
   btn.textContent='✏️';btn.classList.remove('active');
   sessionStorage.removeItem('edit_authed');
+  if(!location.hash.includes('admin')) btn.classList.remove('show');
   document.querySelectorAll('.editable').forEach(el=>{
     el.contentEditable='false';
     el.removeEventListener('blur',onBlur);
