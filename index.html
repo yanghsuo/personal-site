@@ -3,671 +3,253 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>杨硕 · 网络工程师</title>
-<style>
-/* ========== Reset & Vars ========== */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#fafafa;--card:#fff;--text:#1a1a2e;--muted:#6b7280;
-  --accent:#2563eb;--accent-light:#dbeafe;--border:#e5e7eb;
-  --radius:10px;--nav-h:60px;--mw:800px;
-}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;
-  background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;
-}
-a{color:var(--accent);text-decoration:none}
-
-/* ========== Nav ========== */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);
-  background:rgba(250,250,250,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
-}
-.nav-inner{max-width:var(--mw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 20px}
-.nav-logo{font-weight:700;font-size:17px;color:var(--text);display:flex;align-items:center;gap:8px}
-.nav-logo:hover{text-decoration:none}
-.nav-links{display:flex;gap:24px;list-style:none}
-.nav-links a{color:var(--muted);font-size:14px;font-weight:500;transition:color .15s}
-.nav-links a:hover{color:var(--accent);text-decoration:none}
-
-/* ========== Layout ========== */
-main{max-width:var(--mw);margin:0 auto;padding:0 20px}
-section{padding:64px 0}
-section+section{border-top:1px solid var(--border)}
-
-/* ========== Hero ========== */
-#hero{padding-top:calc(var(--nav-h) + 48px);padding-bottom:48px;display:flex;align-items:flex-start;gap:24px}
-.hero-avatar{
-  width:80px;height:80px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,var(--accent),#7c3aed);
-  display:flex;align-items:center;justify-content:center;font-size:32px;
-}
-.hero-info{flex:1}
-.hero-name{font-size:30px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
-.hero-role{font-size:15px;color:var(--muted);margin-top:4px}
-.hero-tagline{margin-top:10px;font-size:14px;color:var(--muted);line-height:1.6;max-width:480px}
-.hero-links{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
-.hero-links a{
-  display:inline-flex;align-items:center;gap:4px;padding:5px 14px;
-  border-radius:16px;background:var(--card);border:1px solid var(--border);
-  font-size:13px;font-weight:500;transition:all .15s;
-}
-.hero-links a:hover{border-color:var(--accent);text-decoration:none}
-
-/* ========== Skills (inline) ========== */
-.skills-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.skill-chip{
-  padding:4px 14px;border-radius:16px;border:1px solid var(--border);
-  font-size:13px;font-weight:500;background:var(--card);color:var(--muted);
-}
-
-/* ========== Timeline ========== */
-.timeline{position:relative;padding-left:24px}
-.timeline::before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--border)}
-.timeline-item{position:relative;padding-bottom:32px}
-.timeline-item:last-child{padding-bottom:0}
-.timeline-dot{position:absolute;left:-22px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
-.timeline-date{font-size:12px;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-.timeline-title{font-size:17px;font-weight:700;margin:2px 0}
-.timeline-sub{font-size:13px;color:var(--muted)}
-.timeline-desc{margin-top:6px;font-size:14px;color:var(--muted);line-height:1.7}
-
-/* ========== Projects ========== */
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.project-card{
-  padding:20px;border-radius:var(--radius);border:1px solid var(--border);
-  background:var(--card);transition:all .2s;position:relative;
-}
-.project-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.06);transform:translateY(-1px)}
-.project-icon{font-size:24px;margin-bottom:10px}
-.project-name{font-size:16px;font-weight:700;margin-bottom:4px}
-.project-desc{font-size:13px;color:var(--muted);line-height:1.6}
-.project-stack{margin-top:10px;display:flex;flex-wrap:wrap;gap:5px}
-.project-stack span{font-size:11px;padding:2px 8px;border-radius:10px;background:var(--accent-light);color:var(--accent);font-weight:500}
-
-/* ========== Blog / Articles ========== */
-.articles-grid{display:grid;grid-template-columns:1fr;gap:12px}
-.article-card{
-  padding:20px 24px;border-radius:var(--radius);border:1px solid var(--border);
-  background:var(--card);cursor:pointer;transition:all .2s;position:relative;
-}
-.article-card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(0,0,0,.04)}
-.article-date{font-size:12px;color:var(--accent);font-weight:600}
-.article-title{font-size:18px;font-weight:700;margin:4px 0 6px}
-.article-summary{font-size:13px;color:var(--muted);line-height:1.6}
-.article-tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
-.article-tags span{font-size:11px;padding:1px 8px;border-radius:8px;background:#f3f4f6;color:var(--muted)}
-
-/* ========== Article detail modal ========== */
-.modal-overlay{
-  display:none;position:fixed;inset:0;z-index:300;
-  background:rgba(0,0,0,.4);backdrop-filter:blur(4px);
-  align-items:flex-start;justify-content:center;padding:40px 20px;
-  overflow-y:auto;
-}
-.modal-overlay.open{display:flex}
-.modal-content{
-  width:100%;max-width:720px;background:var(--card);border-radius:14px;
-  padding:40px;box-shadow:0 20px 60px rgba(0,0,0,.15);
-  animation:modalIn .2s ease;
-}
-@keyframes modalIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.modal-close{
-  float:right;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);
-  background:var(--bg);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;
-  transition:all .15s;
-}
-.modal-close:hover{background:var(--text);color:#fff;border-color:var(--text)}
-.article-full-title{font-size:26px;font-weight:800;margin-bottom:6px}
-.article-full-date{font-size:13px;color:var(--accent);font-weight:600;margin-bottom:24px}
-.article-body{font-size:15px;line-height:1.9;color:var(--text)}
-.article-body p{margin-bottom:16px}
-.article-body code{
-  background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:13px;
-  font-family:"SF Mono","Fira Code",monospace;
-}
-.article-body pre{
-  background:#1e293b;color:#e2e8f0;padding:16px 20px;border-radius:8px;
-  overflow-x:auto;margin-bottom:16px;font-size:13px;line-height:1.6;
-}
-.article-body pre code{background:none;padding:0;color:inherit}
-.article-body strong{font-weight:700}
-.article-body em{font-style:italic}
-.article-body a{text-decoration:underline}
-
-/* ========== Footer / Contact ========== */
-footer{padding:32px 20px 40px;border-top:1px solid var(--border);max-width:var(--mw);margin:0 auto}
-.footer-contact{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px}
-.footer-contact span{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:6px}
-.footer-copy{font-size:12px;color:var(--muted)}
-
-/* ========== Edit mode ========== */
-body.editing .editable{cursor:text;transition:all .12s}
-body.editing .editable:hover{background:#fffbeb;border-radius:3px;outline:2px dashed #f59e0b;outline-offset:2px}
-body.editing .editable:focus{outline:2px solid var(--accent);background:#eff6ff}
-body.editing [contenteditable]:empty::before{content:attr(data-placeholder);color:#d1d5db}
-
-.edit-btn{
-  position:fixed;bottom:20px;right:20px;z-index:200;
-  width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;border:none;
-  font-size:18px;cursor:pointer;box-shadow:0 4px 14px rgba(37,99,235,.3);
-  transition:all .15s;display:none;align-items:center;justify-content:center;
-}
-.edit-btn.show{display:flex}
-.edit-btn:hover{transform:scale(1.08)}
-.edit-btn.active{background:#ef4444}
-
-.edit-panel{
-  display:none;position:fixed;bottom:72px;right:20px;z-index:200;
-  flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);padding:10px;box-shadow:0 10px 30px rgba(0,0,0,.1);
-  min-width:170px;
-}
-body.editing .edit-panel{display:flex}
-.edit-panel button{
-  padding:7px 12px;border:1px solid var(--border);border-radius:6px;
-  background:var(--bg);cursor:pointer;font-size:12px;font-weight:500;
-  transition:all .12s;text-align:left;
-}
-.edit-panel button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-
-.del-btn{
-  display:none;position:absolute;top:-8px;right:-8px;
-  width:20px;height:20px;border-radius:50%;background:#ef4444;color:#fff;border:none;
-  font-size:11px;cursor:pointer;line-height:1;align-items:center;justify-content:center;
-}
-body.editing .del-btn{display:flex}
-
-/* ========== Password modal ========== */
-.pw-overlay{
-  display:none;position:fixed;inset:0;z-index:400;
-  background:rgba(0,0,0,.5);align-items:center;justify-content:center;
-}
-.pw-overlay.open{display:flex}
-.pw-box{
-  background:var(--card);border-radius:14px;padding:32px;width:320px;
-  box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center;
-}
-.pw-box h3{margin-bottom:8px;font-size:18px}
-.pw-box p{font-size:13px;color:var(--muted);margin-bottom:16px}
-.pw-box input{
-  width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;
-  font-size:15px;outline:none;text-align:center;
-}
-.pw-box input:focus{border-color:var(--accent)}
-.pw-box .pw-btns{margin-top:12px;display:flex;gap:8px;justify-content:center}
-.pw-box button{
-  padding:8px 20px;border-radius:8px;border:1px solid var(--border);
-  background:var(--bg);cursor:pointer;font-size:14px;font-weight:500;
-}
-.pw-box button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.pw-error{color:#ef4444;font-size:12px;margin-top:8px;display:none}
-
-/* ========== Mobile ========== */
-@media(max-width:640px){
-  #hero{flex-direction:column;align-items:center;text-align:center;gap:16px}
-  .hero-tagline{margin-left:auto;margin-right:auto}
-  .hero-links{justify-content:center}
-  .hero-name{font-size:26px}
-  .nav-links{gap:14px}.nav-links a{font-size:12px}
-  section{padding:44px 0}
-  .section-title{font-size:22px}
-  .projects-grid{grid-template-columns:1fr}
-  .modal-content{padding:24px}
-  .article-full-title{font-size:22px}
-}
-</style>
+<title>杨硕 · Yang Shuo — 网络工程师 / Network Engineer</title>
+<meta name="description" content="杨硕（Yang Shuo）个人站 — 14 年数据中心网络经验，专注 BGP 路由、数据中心组网与网络自动化。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<script>
-// ============================================================
-//  个人网站配置（内联，避免外部文件缓存问题）
-//  编辑密码默认: admin123
-// ============================================================
-const SITE = {
-  version: 4,
-  title: "杨硕 · 个人主页",
-  editPassword: "admin123",
-  nav: {
-    logo: "👤 杨硕",
-    links: [
-      { label: "关于",   href: "#about" },
-      { label: "经历",   href: "#experience" },
-      { label: "项目",   href: "#projects" },
-      { label: "文章",   href: "#articles" },
-      { label: "联系",   href: "#contact" }
-    ]
-  },
-  hero: {
-    emoji: "🌐",
-    name: "杨硕",
-    role: "网络工程师 · 北京",
-    tagline: "14年网络技术沉淀，精通路由协议、VXLAN、WiFi 及网络自动化编程。",
-    links: [
-      { icon: "📄", label: "简历", url: "#" },
-      { icon: "🐙", label: "GitHub", url: "https://github.com/yanghsuo" }
-    ]
-  },
-  about: {
-    label: "About",
-    title: "关于我",
-    desc: "14年网络工程实战经验，深度掌握 BGP、OSPF 等路由协议，熟悉 VXLAN、ROCE、InfiniBand 等数据中心网络技术。擅长 WiFi 无线网络规划与优化，同时具备网络自动化编程能力，用 Python 驱动网络运维效率提升。"
-  },
-  skills: ["Python", "BGP", "OSPF", "VXLAN", "InfiniBand", "ROCE", "WiFi", "网络自动化"],
-  timeline: [
-    { date: "2024 - 至今", title: "公司名称", subtitle: "网络工程师", desc: "负责数据中心网络架构设计与运维，推动网络自动化体系建设。" },
-    { date: "2015 - 2023", title: "上一家公司", subtitle: "网络工程师", desc: "负责大规模园区网与数据中心的规划、部署和优化。" }
-  ],
-  projects: [
-    { icon: "🔧", name: "项目名称", desc: "项目简介，说明背景、角色和关键成果。", stack: ["Python", "BGP", "VXLAN"] },
-    { icon: "🚀", name: "项目二", desc: "项目简介。", stack: ["Python", "ROCE"] }
-  ],
-  articles: [
-    { id: "1", date: "2026-07-23", title: "示例文章：如何搭建个人网站", summary: "这是一篇示例文章，点击卡片可以阅读全文。", content: "这是文章正文，支持简单的排版。\n\n你可以写任意多个段落。段落之间用空行分隔。\n\n支持**粗体**、*斜体*、`行内代码`和[链接](https://example.com)。\n\n```\n// 也支持代码块\nfunc main() {\n    fmt.Println(\"Hello World\")\n}\n```\n\n更多文章请在编辑模式下点击右下角面板的「➕ 文章」来添加。", tags: ["教程", "Web"] }
-  ],
-  contact: [
-    { icon: "📧", text: "823829415@qq.com" },
-    { icon: "🐙", text: "github.com/yanghsuo" }
-  ],
-  footer: "© 2026 杨硕"
-};
-</script>
+<!-- 顶部光晕 -->
+<div class="glow-top" aria-hidden="true"></div>
+
+<!-- ============ Header ============ -->
+<header class="site-header">
+  <a class="logo" href="#top">
+    <span class="logo-mark"></span>
+    杨硕<span class="logo-en">· Yang Shuo</span>
+  </a>
+  <nav class="nav">
+    <a href="#about">关于</a>
+    <a href="#skills">技能</a>
+    <a href="#experience">经历</a>
+    <a href="#articles">文章</a>
+    <a href="#contact">联系</a>
+  </nav>
+  <a class="btn btn-ghost header-cta" href="#contact">取得联系</a>
+</header>
+
+<main id="top">
+
+  <!-- ============ Hero ============ -->
+  <section class="hero">
+    <div class="hero-left">
+      <span class="badge mono">NETWORK ENGINEER · 14 YEARS</span>
+      <h1 class="hero-title">构建<em>稳定可靠</em>的<br>大规模网络基础设施</h1>
+      <p class="hero-sub">我是杨硕，一名深耕数据中心网络 14 年的工程师。专注 BGP 路由架构、
+        高性能无损网络（InfiniBand / RoCE）与 Python 网络自动化，让复杂网络变得简单、可控、可演进。</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#articles">阅读我的文章 →</a>
+        <a class="btn btn-ghost" href="#experience">查看工作经历</a>
+      </div>
+    </div>
+    <div class="hero-right glass">
+      <!-- 网络拓扑 SVG -->
+      <svg viewBox="0 0 420 340" class="topo" role="img" aria-label="网络拓扑示意图">
+        <defs>
+          <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#38BDF8" stop-opacity=".9"/>
+            <stop offset="100%" stop-color="#38BDF8" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <g class="links" stroke="#38BDF8" stroke-opacity=".28" stroke-width="1.2">
+          <line x1="210" y1="60"  x2="90"  y2="160"/>
+          <line x1="210" y1="60"  x2="210" y2="160"/>
+          <line x1="210" y1="60"  x2="330" y2="160"/>
+          <line x1="90"  y1="160" x2="60"  y2="270"/>
+          <line x1="90"  y1="160" x2="150" y2="270"/>
+          <line x1="210" y1="160" x2="150" y2="270"/>
+          <line x1="210" y1="160" x2="270" y2="270"/>
+          <line x1="330" y1="160" x2="270" y2="270"/>
+          <line x1="330" y1="160" x2="360" y2="270"/>
+          <line x1="90"  y1="160" x2="210" y2="160"/>
+          <line x1="210" y1="160" x2="330" y2="160"/>
+        </g>
+        <g class="pulse-dots" fill="#38BDF8">
+          <circle class="p p1" r="3"/>
+          <circle class="p p2" r="3"/>
+          <circle class="p p3" r="3"/>
+        </g>
+        <g class="nodes">
+          <g transform="translate(210,60)"><circle r="26" fill="url(#nodeGlow)" opacity=".55"/><circle r="10" fill="#0A0B0F" stroke="#38BDF8" stroke-width="2"/></g>
+          <g transform="translate(90,160)"><circle r="20" fill="url(#nodeGlow)" opacity=".4"/><circle r="8" fill="#0A0B0F" stroke="#38BDF8" stroke-width="1.6"/></g>
+          <g transform="translate(210,160)"><circle r="20" fill="url(#nodeGlow)" opacity=".4"/><circle r="8" fill="#0A0B0F" stroke="#38BDF8" stroke-width="1.6"/></g>
+          <g transform="translate(330,160)"><circle r="20" fill="url(#nodeGlow)" opacity=".4"/><circle r="8" fill="#0A0B0F" stroke="#38BDF8" stroke-width="1.6"/></g>
+          <g transform="translate(60,270)"><circle r="6" fill="#0A0B0F" stroke="#94A3B8" stroke-width="1.4"/></g>
+          <g transform="translate(150,270)"><circle r="6" fill="#0A0B0F" stroke="#94A3B8" stroke-width="1.4"/></g>
+          <g transform="translate(270,270)"><circle r="6" fill="#0A0B0F" stroke="#94A3B8" stroke-width="1.4"/></g>
+          <g transform="translate(360,270)"><circle r="6" fill="#0A0B0F" stroke="#94A3B8" stroke-width="1.4"/></g>
+        </g>
+        <g class="topo-labels mono" fill="#94A3B8" font-size="9">
+          <text x="228" y="56">CORE</text>
+          <text x="64" y="140">SPINE-1</text>
+          <text x="184" y="140">SPINE-2</text>
+          <text x="304" y="140">SPINE-3</text>
+        </g>
+      </svg>
+      <div class="topo-caption mono">DATACENTER FABRIC · SPINE-LEAF</div>
+    </div>
+  </section>
+
+  <!-- ============ About ============ -->
+  <section class="section" id="about">
+    <span class="eyebrow mono">ABOUT</span>
+    <h2 class="section-title">关于我</h2>
+    <p class="section-lead">从机房里的第一根网线，到横跨多个数据中心的路由体系——14 年来我一直在做同一件事：
+      让网络成为业务最不需要担心的部分。日常与 BGP、OSPF、VXLAN 打交道，也热衷用 Python 把重复的运维工作自动化掉。</p>
+    <div class="stats glass">
+      <div class="stat">
+        <div class="stat-num mono">14<span>年</span></div>
+        <div class="stat-label">网络工程经验</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num mono">50<span>+</span></div>
+        <div class="stat-label">数据中心网络项目</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num mono">99.99<span>%</span></div>
+        <div class="stat-label">核心网络可用性</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Skills ============ -->
+  <section class="section" id="skills">
+    <span class="eyebrow mono">SKILLS</span>
+    <h2 class="section-title">专业技能</h2>
+    <div class="chips">
+      <div class="chip glass"><svg viewBox="0 0 24 24"><path d="M12 2c-2.8 0-5 .6-5 2.5V7h5v1H5.5C3.6 8 2 9.6 2 12s1.6 4 3.5 4H7v-2.5C7 11.6 9 10 11.5 10h5c1.9 0 3.5-1.6 3.5-3.5v-2C20 2.6 14.8 2 12 2zM9.5 4.5a1 1 0 110 2 1 1 0 010-2z"/><path d="M17 8.5V11c0 1.9-2 3.5-4.5 3.5h-5C5.6 14.5 4 16.1 4 18v2c0 1.9 5.2 2.5 8 2.5s5-.6 5-2.5V17h-5v-1h6.5c1.9 0 3.5-1.6 3.5-4s-1.6-3.5-3.5-3.5H17zm-2.5 11a1 1 0 110 2 1 1 0 010-2z" opacity=".55"/></svg>Python</div>
+      <div class="chip glass"><svg viewBox="0 0 24 24"><path d="M4 6h7v2H4zm0 4h10v2H4zm0 4h7v2H4z"/><path d="M15 5l5 4-5 4V5zm0 6l5 4-5 4v-8z" opacity=".55"/></svg>BGP 路由</div>
+      <div class="chip glass"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2a8 8 0 110 16 8 8 0 010-16z" opacity=".55"/><path d="M12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z" opacity=".3"/></svg>OSPF</div>
+      <div class="chip glass"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="6" rx="1"/><rect x="13" y="4" width="8" height="6" rx="1" opacity=".55"/><rect x="3" y="14" width="8" height="6" rx="1" opacity=".55"/><rect x="13" y="14" width="8" height="6" rx="1"/></svg>VXLAN / EVPN</div>
+      <div class="chip glass"><svg viewBox="0 0 24 24"><path d="M4 4h2v16H4zm14 0h2v16h-2z"/><path d="M8 7h8v2H8zm0 8h8v2H8zm0-4h8v2H8z" opacity=".55"/></svg>InfiniBand</div>
+      <div class="chip glass"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>RoCE 无损网络</div>
+      <div class="chip glass"><svg viewBox="0 0 24 24"><path d="M12 18a2 2 0 110 4 2 2 0 010-4z"/><path d="M12 13c2.5 0 4.8 1 6.4 2.7l-1.7 1.7A6.9 6.9 0 0012 15.5c-1.8 0-3.5.7-4.7 1.9l-1.7-1.7A9 9 0 0112 13z" opacity=".7"/><path d="M12 8c3.9 0 7.4 1.6 10 4.1l-1.7 1.7A11.5 11.5 0 0012 10.5c-3.2 0-6.1 1.3-8.3 3.3L2 12.1A14 14 0 0112 8z" opacity=".4"/></svg>WiFi 无线网络</div>
+      <div class="chip glass"><svg viewBox="0 0 24 24"><path d="M8 6l-5 6 5 6 1.5-1.5L5 12l4.5-4.5zm8 0l-1.5 1.5L19 12l-4.5 4.5L16 18l5-6z"/><path d="M13.7 4l-3.4 16 2 .4 3.4-16z" opacity=".55"/></svg>网络自动化</div>
+    </div>
+  </section>
+
+  <!-- ============ Experience ============ -->
+  <section class="section" id="experience">
+    <span class="eyebrow mono">EXPERIENCE</span>
+    <h2 class="section-title">工作经历</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+        <div class="tl-body">
+          <div class="tl-date mono">2018 — 至今</div>
+          <h3 class="tl-role">高级网络工程师 · 数据中心网络</h3>
+          <p class="tl-desc">负责大规模数据中心 Spine-Leaf 组网设计与 BGP 路由体系演进，主导 AI 集群
+            InfiniBand / RoCE 无损网络建设，构建基于 Python 的自动化巡检与变更平台。</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+        <div class="tl-body">
+          <div class="tl-date mono">2014 — 2018</div>
+          <h3 class="tl-role">网络工程师 · 企业网与园区网</h3>
+          <p class="tl-desc">负责园区网络架构规划与运维，完成多园区 OSPF/BGP 混合路由改造与无线网络
+            全覆盖项目，将故障平均恢复时间缩短 60%。</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-marker"><span class="tl-dot"></span></div>
+        <div class="tl-body">
+          <div class="tl-date mono">2012 — 2014</div>
+          <h3 class="tl-role">初级网络工程师</h3>
+          <p class="tl-desc">从交换机配置与故障排查做起，打下扎实的网络协议功底，考取多项网络专业认证。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Articles ============ -->
+  <section class="section" id="articles">
+    <span class="eyebrow mono">WRITING</span>
+    <h2 class="section-title">文章</h2>
+    <div class="article-list">
+      <a class="article glass" href="#">
+        <div class="article-date mono">2026-07-23</div>
+        <div class="article-main">
+          <h3>如何搭建个人网站</h3>
+          <div class="tags mono"><span>教程</span><span>Web</span></div>
+        </div>
+        <span class="article-arrow">→</span>
+      </a>
+      <a class="article glass" href="#">
+        <div class="article-date mono">2026-06-10</div>
+        <div class="article-main">
+          <h3>BGP 路由优化实战笔记</h3>
+          <div class="tags mono"><span>路由</span><span>运维</span></div>
+        </div>
+        <span class="article-arrow">→</span>
+      </a>
+      <a class="article glass" href="#">
+        <div class="article-date mono">2026-05-02</div>
+        <div class="article-main">
+          <h3>用 Python 自动化日常网络运维</h3>
+          <div class="tags mono"><span>Python</span><span>自动化</span></div>
+        </div>
+        <span class="article-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ Contact ============ -->
+  <section class="section" id="contact">
+    <span class="eyebrow mono">CONTACT</span>
+    <h2 class="section-title">联系方式</h2>
+    <div class="contact-card glass">
+      <h3 class="contact-statement">一起构建更可靠的网络。</h3>
+      <p class="contact-body">如果您的团队正在规划数据中心网络、优化 BGP 路由，或用自动化提升运维效率，欢迎随时交流。</p>
+      <div class="contact-divider"></div>
+      <div class="contact-row">
+        <div class="contact-col">
+          <div class="contact-label mono">EMAIL</div>
+          <a class="contact-val" href="mailto:hi@yanghsuo.dev">hi@yanghsuo.dev</a>
+        </div>
+        <div class="contact-col">
+          <div class="contact-label mono">GITHUB</div>
+          <a class="contact-val" href="https://github.com/yanghsuo" target="_blank" rel="noopener">github.com/yanghsuo</a>
+        </div>
+      </div>
+      <a class="btn btn-primary contact-cta" href="mailto:hi@yanghsuo.dev">发送邮件 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="site-footer">
+  <div class="footer-divider"></div>
+  <div class="footer-top">
+    <div class="footer-brand">杨硕 · Yang Shuo</div>
+    <nav class="footer-nav">
+      <a href="#about">关于</a>
+      <a href="#skills">技能</a>
+      <a href="#experience">经历</a>
+      <a href="#articles">文章</a>
+      <a href="#contact">联系</a>
+    </nav>
+  </div>
+  <div class="footer-copy mono">Copyright 2026 杨硕 (Yang Shuo) · Built with Deep Space Design System</div>
+</footer>
 
 <script>
-// ==================== 数据层 ====================
-const SITE_VER = (window.SITE && window.SITE.version) || 0;
-const saved = localStorage.getItem('mysite_data');
-const savedVer = saved ? (JSON.parse(saved)._ver || 0) : 0;
-let D;
-// 内联配置有更新 → 清空旧缓存，强制用最新数据
-if (window.SITE && SITE_VER > 0 && SITE_VER !== savedVer) {
-  localStorage.removeItem('mysite_data');
-  D = window.SITE;
-  D._ver = SITE_VER;
-  try { localStorage.setItem('mysite_data', JSON.stringify(D)); } catch(e){}
-} else {
-  D = saved ? JSON.parse(saved) : (window.SITE || {});
-}
-
-function saveData(){ try { localStorage.setItem('mysite_data', JSON.stringify(D)); } catch(e){} }
-
-function ensureDefaults(){
-  D.title = '杨硕 · 个人主页';
-  D.editPassword = D.editPassword || 'admin123';
-  D.nav = {
-    logo: '👤 杨硕',
-    links: [
-      {label:'关于',href:'#about'},{label:'经历',href:'#experience'},
-      {label:'项目',href:'#projects'},{label:'文章',href:'#articles'},{label:'联系',href:'#contact'}
-    ]
-  };
-  D.hero = {emoji:'🌐',name:'杨硕',role:'网络工程师 · 北京',tagline:'14年网络技术沉淀，精通路由协议、VXLAN、WiFi 及网络自动化编程。',links:[{icon:'📄',label:'简历',url:'#'},{icon:'🐙',label:'GitHub',url:'https://github.com/yanghsuo'}]};
-  D.about = {label:'About',title:'关于我',desc:'14年网络工程实战经验，深度掌握 BGP、OSPF 等路由协议，熟悉 VXLAN、ROCE、InfiniBand 等数据中心网络技术。擅长 WiFi 无线网络规划与优化，同时具备网络自动化编程能力，用 Python 驱动网络运维效率提升。'};
-  D.skills = ['Python','BGP','OSPF','VXLAN','InfiniBand','ROCE','WiFi','网络自动化'];
-  D.timeline = D.timeline || [{date:'2024 - 至今',title:'公司',subtitle:'职位',desc:'工作内容'}];
-  D.projects = D.projects || [{icon:'🔧',name:'项目',desc:'描述',stack:['技术']}];
-  D.articles = D.articles || [{id:'1',date:'2026-07-23',title:'示例文章：如何搭建个人网站',summary:'这是一篇示例文章，点击阅读全文。','content':'这是文章正文。\n\n你可以在这里写任何内容。支持**粗体**、*斜体*和`行内代码`。\n\n```\n// 也支持代码块\nconsole.log("Hello World");\n```\n\n文章写完后点击右上角关闭即可。',tags:['教程','Web']}];
-  D.contact = [{icon:'📧',text:'823829415@qq.com'},{icon:'🐙',text:'github.com/yanghsuo'}];
-  D.footer = '© 2026 杨硕';
-  saveData();
-}
-ensureDefaults();
-
-// ==================== 渲染引擎 ====================
-const E = (tag, attrs = {}, ...children) => {
-  const el = document.createElement(tag);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (k === 'className') el.className = v;
-    else if (k.startsWith('on')) el.addEventListener(k.slice(2).toLowerCase(), v);
-    else if (k === 'html') el.innerHTML = v;
-    else if (k === 'style' && typeof v === 'string') el.style.cssText = v;
-    else el.setAttribute(k, v);
-  }
-  for (const child of children) el.append(typeof child==='string'?document.createTextNode(child):child);
-  return el;
-};
-
-const DG = p => p.split('.').reduce((o,k)=>{
-  if(o==null)return'';
-  const m=k.match(/^(\w+)\[(\d+)\]$/);
-  return m?(o[m[1]]||[])[+m[2]]:o[k];
-},D)??'';
-
-const DS = (p, v) => {
-  const ks = p.split('.'); let o = D;
-  for(let i=0;i<ks.length-1;i++){
-    const m=ks[i].match(/^(\w+)\[(\d+)\]$/);
-    o=m?(o[m[1]]||[])[+m[2]]:o[ks[i]];
-  }
-  const l=ks[ks.length-1], lm=l.match(/^(\w+)\[(\d+)\]$/);
-  lm?(o[lm[1]][+lm[2]]=v):(o[l]=v);
-  saveData();
-};
-
-// 可编辑 span
-const ED = (field, ph='') => E('span',{className:'editable','data-field':field,'data-placeholder':ph},DG(field)||ph);
-
-// ==================== Markdown → HTML ====================
-function md2html(text){
-  if(!text)return'';
-  // 预处理代码块
-  const blocks=[];
-  let t=text.replace(/```(\w*)\n([\s\S]*?)```/g,(_,lang,code)=>{
-    blocks.push(`<pre><code>${escHtml(code.trim())}</code></pre>`);
-    return `%%BLOCK${blocks.length-1}%%`;
-  });
-  // 按段落分割
-  const paras=t.split(/\n\n+/).filter(Boolean).map(p=>{
-    p=p.trim();
-    if(p.startsWith('%%BLOCK'))return p;
-    // 行内格式
-    p=p.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-    p=p.replace(/\*(.+?)\*/g,'<em>$1</em>');
-    p=p.replace(/`([^`]+)`/g,'<code>$1</code>');
-    p=p.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
-    return `<p>${p}</p>`;
-  });
-  return paras.map(p=>p.startsWith('%%BLOCK')?blocks[+p.match(/\d+/)[0]]:p).join('\n');
-}
-
-function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-
-// ==================== 渲染页面 ====================
-function render(){
-  document.body.innerHTML='';
-  document.title=D.title;
-
-  // Nav
-  const nav=E('nav',{},
-    E('div',{className:'nav-inner'},
-      E('a',{href:'#hero',className:'nav-logo'},ED('nav.logo','Logo')),
-      E('ul',{className:'nav-links'},...D.nav.links.map((l,i)=>
-        E('li',{},E('a',{href:l.href},ED(`nav.links[${i}].label`,'导航')))
-      ))
-    )
-  );
-
-  const main=E('main',{});
-
-  // ---- Hero ----
-  main.append(E('section',{id:'hero'},
-    E('div',{className:'hero-avatar'},ED('hero.emoji','😀')),
-    E('div',{className:'hero-info'},
-      E('h1',{className:'hero-name'},ED('hero.name','名字')),
-      E('p',{className:'hero-role'},ED('hero.role','头衔')),
-      E('p',{className:'hero-tagline'},ED('hero.tagline','一句话介绍')),
-      E('div',{className:'hero-links','data-list':'hero.links'},...D.hero.links.map((l,i)=>
-        E('div',{style:'position:relative;display:inline-flex'},
-          E('a',{href:l.url||'#',target:'_blank'},
-            E('span',{className:'editable','data-field':`hero.links[${i}].icon`,'data-placeholder':'🔗',style:'margin-right:2px'},l.icon),
-            E('span',{className:'editable','data-field':`hero.links[${i}].label`,'data-placeholder':'链接'},l.label)
-          ),
-          E('button',{className:'del-btn',onclick:()=>{D.hero.links.splice(i,1);saveData();render()}},'×')
-        )
-      ))
-    )
-  ));
-
-  // ---- About + Skills (合并) ----
-  main.append(E('section',{id:'about'},
-    E('div',{className:'section-label'},ED('about.label','LABEL')),
-    E('h2',{className:'section-title',style:'margin-bottom:12px'},ED('about.title','标题')),
-    E('p',{className:'section-desc',style:'margin-bottom:16px'},ED('about.desc','介绍…')),
-    E('div',{className:'skills-row','data-list':'skills'},...D.skills.map((s,i)=>
-      E('div',{className:'skill-chip',style:'position:relative'},
-        E('span',{className:'editable','data-field':`skills[${i}]`,'data-placeholder':'技能'},s),
-        E('button',{className:'del-btn',style:'top:-6px;right:-6px',onclick:()=>{D.skills.splice(i,1);saveData();render()}},'×')
-      )
-    ))
-  ));
-
-  // ---- Experience ----
-  main.append(E('section',{id:'experience'},
-    E('div',{className:'section-label'},'Experience'),
-    E('h2',{className:'section-title'},'工作经历'),
-    E('div',{className:'timeline','data-list':'timeline'},...D.timeline.map((t,i)=>
-      E('div',{className:'timeline-item',style:'position:relative'},
-        E('div',{className:'timeline-dot'}),
-        E('div',{className:'timeline-date'},ED(`timeline[${i}].date`,'日期')),
-        E('h3',{className:'timeline-title'},ED(`timeline[${i}].title`,'标题')),
-        E('p',{className:'timeline-sub'},ED(`timeline[${i}].subtitle`,'副标题')),
-        E('p',{className:'timeline-desc'},ED(`timeline[${i}].desc`,'描述')),
-        E('button',{className:'del-btn',style:'top:0;right:0',onclick:()=>{D.timeline.splice(i,1);saveData();render()}},'×')
-      )
-    ))
-  ));
-
-  // ---- Projects ----
-  main.append(E('section',{id:'projects'},
-    E('div',{className:'section-label'},'Projects'),
-    E('h2',{className:'section-title'},'项目'),
-    E('div',{className:'projects-grid','data-list':'projects'},...D.projects.map((p,i)=>
-      E('div',{className:'project-card'},
-        E('div',{className:'project-icon'},ED(`projects[${i}].icon`,'🔧')),
-        E('h3',{className:'project-name'},ED(`projects[${i}].name`,'项目名')),
-        E('p',{className:'project-desc'},ED(`projects[${i}].desc`,'描述')),
-        E('div',{className:'project-stack','data-list':`projects[${i}].stack`},...(p.stack||[]).map((s,j)=>
-          E('span',{style:'position:relative'},
-            E('span',{className:'editable','data-field':`projects[${i}].stack[${j}]`,'data-placeholder':'技术'},s),
-            E('button',{className:'del-btn',style:'top:-5px;right:-5px',onclick:()=>{D.projects[i].stack.splice(j,1);saveData();render()}},'×')
-          )
-        )),
-        E('button',{className:'del-btn',onclick:()=>{D.projects.splice(i,1);saveData();render()}},'×')
-      )
-    ))
-  ));
-
-  // ---- Articles (Blog) ----
-  const articlesSection = E('section',{id:'articles'},
-    E('div',{className:'section-label'},'Articles'),
-    E('h2',{className:'section-title'},'文章'),
-    E('div',{className:'articles-grid','data-list':'articles'},...D.articles.map((a,i)=>
-      E('div',{className:'article-card',onclick:(e)=>{
-        if(document.body.classList.contains('editing'))return;
-        if(e.target.closest('.del-btn'))return;
-        openArticle(i);
-      },style:'position:relative'},
-        E('div',{className:'article-date'},ED(`articles[${i}].date`,'日期')),
-        E('h3',{className:'article-title'},ED(`articles[${i}].title`,'标题')),
-        E('p',{className:'article-summary'},ED(`articles[${i}].summary`,'摘要')),
-        (a.tags&&a.tags.length)?E('div',{className:'article-tags'},...a.tags.map((t,j)=>
-          E('span',{style:'position:relative'},
-            E('span',{className:'editable','data-field':`articles[${i}].tags[${j}]`,'data-placeholder':'标签'},t),
-            E('button',{className:'del-btn',style:'top:-5px;right:-5px',onclick:(ev)=>{ev.stopPropagation();D.articles[i].tags.splice(j,1);saveData();render()}},'×')
-          )
-        )):null,
-        E('button',{className:'del-btn',onclick:(ev)=>{ev.stopPropagation();D.articles.splice(i,1);saveData();render()}},'×')
-      )
-    ))
-  );
-  main.append(articlesSection);
-
-  document.body.appendChild(main);
-
-  // ---- Footer / Contact ----
-  document.body.appendChild(E('footer',{id:'contact'},
-    E('div',{className:'footer-contact','data-list':'contact'},...D.contact.map((c,i)=>
-      E('span',{style:'position:relative'},
-        E('span',{className:'editable','data-field':`contact[${i}].icon`,'data-placeholder':'📧',style:'margin-right:4px'},c.icon),
-        E('span',{className:'editable','data-field':`contact[${i}].text`,'data-placeholder':'内容'},c.text),
-        E('button',{className:'del-btn',onclick:()=>{D.contact.splice(i,1);saveData();render()}},'×')
-      )
-    )),
-    E('div',{className:'footer-copy'},ED('footer','页脚'))
-  ));
-
-  // ---- 文章阅读弹窗 ----
-  const modal=E('div',{className:'modal-overlay',id:'articleModal',onclick(e){if(e.target===this)closeArticle()}},
-    E('div',{className:'modal-content'})
-  );
-  document.body.appendChild(modal);
-
-  // ---- 编辑按钮 + 面板 ----
-  const editBtn=E('button',{className:'edit-btn',id:'editBtn',title:'编辑',onclick:handleEditClick},'✏️');
-  const editPanel=E('div',{className:'edit-panel',id:'editPanel'},
-    E('button',{onclick:()=>{D.skills.push('新技能');saveData();render();enterEdit()}},'➕ 技能'),
-    E('button',{onclick:()=>{D.timeline.push({date:'日期',title:'标题',subtitle:'副标题',desc:'描述'});saveData();render();enterEdit()}},'➕ 经历'),
-    E('button',{onclick:()=>{D.projects.push({icon:'🔧',name:'项目',desc:'描述',stack:['技术']});saveData();render();enterEdit()}},'➕ 项目'),
-    E('button',{onclick:()=>{D.articles.push({id:Date.now().toString(),date:new Date().toISOString().slice(0,10),title:'新文章',summary:'摘要',content:'正文…',tags:['标签']});saveData();render();enterEdit()}},'➕ 文章'),
-    E('button',{onclick:()=>{D.contact.push({icon:'📧',text:'新联系方式'});saveData();render();enterEdit()}},'➕ 联系方式'),
-    E('button',{onclick:()=>{D.hero.links.push({icon:'🔗',label:'链接',url:'#'});saveData();render();enterEdit()}},'➕ 社交链接'),
-    E('button',{onclick:changePassword},'🔑 改密码'),
-    E('button',{onclick:()=>{if(confirm('重置所有内容？不可恢复！')){localStorage.removeItem('mysite_data');location.reload()}}},'🔄 重置'),
-    E('button',{onclick:downloadConfig,style:'background:#10b981;color:#fff;border-color:#10b981'},'💾 导出配置'),
-  );
-  document.body.appendChild(editBtn);
-  document.body.appendChild(editPanel);
-
-  // ---- 编辑入口：仅站长可见 ----
-  function showEditBtn(){ document.getElementById('editBtn').classList.add('show'); }
-  function checkAdminAccess(){
-    if(sessionStorage.getItem('edit_authed')==='1' || location.hash.includes('admin')) showEditBtn();
-  }
-  checkAdminAccess();
-  // 快捷键 Ctrl+Shift+E 唤出
-  document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.shiftKey&&e.key==='E'){e.preventDefault();showEditBtn();}});
-  // hash 变化时检查
-  window.addEventListener('hashchange',checkAdminAccess);
-
-  // ---- 密码弹窗 ----
-  const pwOverlay=E('div',{className:'pw-overlay',id:'pwOverlay'},
-    E('div',{className:'pw-box'},
-      E('h3',{},'🔐 输入编辑密码'),
-      E('p',{},'只有网站所有者可以编辑内容'),
-      E('input',{type:'password',id:'pwInput',placeholder:'输入密码…',onkeydown(e){if(e.key==='Enter')verifyPassword()}}),
-      E('p',{className:'pw-error',id:'pwError'},'密码错误'),
-      E('div',{className:'pw-btns'},
-        E('button',{onclick:()=>{document.getElementById('pwOverlay').classList.remove('open')}},'取消'),
-        E('button',{className:'primary',onclick:verifyPassword},'确认')
-      )
-    )
-  );
-  document.body.appendChild(pwOverlay);
-
-  // 恢复编辑状态（会话级）
-  if(sessionStorage.getItem('edit_authed')==='1') enterEdit();
-}
-
-// ==================== 文章阅读 ====================
-function openArticle(i){
-  const a=D.articles[i];if(!a)return;
-  const modal=document.getElementById('articleModal');
-  const content=modal.querySelector('.modal-content');
-  content.innerHTML='';
-  content.append(
-    E('button',{className:'modal-close',onclick:closeArticle},'✕'),
-    E('h1',{className:'article-full-title'},a.title),
-    E('div',{className:'article-full-date'},a.date),
-    E('div',{className:'article-body',html:md2html(a.content)})
-  );
-  modal.classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeArticle(){
-  document.getElementById('articleModal').classList.remove('open');
-  document.body.style.overflow='';
-}
-
-// ==================== 编辑模式 ====================
-function handleEditClick(){
-  if(document.body.classList.contains('editing')){
-    exitEdit();
-  } else {
-    document.getElementById('pwOverlay').classList.add('open');
-    document.getElementById('pwInput').value='';
-    document.getElementById('pwError').style.display='none';
-    setTimeout(()=>document.getElementById('pwInput').focus(),100);
-  }
-}
-
-function verifyPassword(){
-  const input=document.getElementById('pwInput').value;
-  if(input===D.editPassword){
-    sessionStorage.setItem('edit_authed','1');
-    document.getElementById('pwOverlay').classList.remove('open');
-    enterEdit();
-  } else {
-    document.getElementById('pwError').style.display='block';
-    document.getElementById('pwInput').value='';
-    document.getElementById('pwInput').focus();
-  }
-}
-
-function enterEdit(){
-  document.body.classList.add('editing');
-  const btn=document.getElementById('editBtn');
-  btn.textContent='✓';btn.classList.add('active');
-  document.querySelectorAll('.editable').forEach(el=>{
-    el.contentEditable='true';
-    el.addEventListener('blur',onBlur);
-    el.addEventListener('keydown',onKey);
-  });
-}
-
-function exitEdit(){
-  document.body.classList.remove('editing');
-  const btn=document.getElementById('editBtn');
-  btn.textContent='✏️';btn.classList.remove('active');
-  sessionStorage.removeItem('edit_authed');
-  if(!location.hash.includes('admin')) btn.classList.remove('show');
-  document.querySelectorAll('.editable').forEach(el=>{
-    el.contentEditable='false';
-    el.removeEventListener('blur',onBlur);
-    el.removeEventListener('keydown',onKey);
-  });
-}
-
-function onBlur(e){
-  const f=e.target.getAttribute('data-field');
-  if(f)DS(f,e.target.textContent.trim());
-}
-
-function onKey(e){
-  // Enter to add new paragraph in article content fields
-  if(e.key==='Enter'&&!e.shiftKey){
-    const f=e.target.getAttribute('data-field');
-    if(f&&f.includes('articles')&&f.includes('content')){
-      e.preventDefault();
-      document.execCommand('insertLineBreak');
-    }
-  }
-}
-
-// ==================== 改密码 ====================
-function changePassword(){
-  const np=prompt('请输入新密码（至少4位）：');
-  if(!np||np.length<4){alert('密码至少4位');return;}
-  D.editPassword=np;saveData();
-  alert('密码已更新！请牢记：'+np);
-}
-
-// ==================== 导出 ====================
-function downloadConfig(){
-  document.querySelectorAll('.editable').forEach(el=>{
-    const f=el.getAttribute('data-field');
-    if(f)DS(f,el.textContent.trim());
-  });
-  const js='// 个人网站配置\n// 密码: '+D.editPassword+'\n\nconst SITE = '+JSON.stringify(D,null,2)+';\n';
-  const blob=new Blob([js],{type:'application/javascript'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);a.download='content.js';a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-// ==================== 平滑滚动 ====================
-document.addEventListener('click',e=>{
-  if(document.body.classList.contains('editing'))return;
-  const a=e.target.closest('a[href^="#"]');
-  if(a){e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})}
+// 滚动淡入
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: 0.12 });
+document.querySelectorAll('.section, .hero-left, .hero-right').forEach(el => {
+  el.classList.add('reveal'); io.observe(el);
 });
-
-// ==================== 启动 ====================
-render();
+// Header 滚动加背景
+const header = document.querySelector('.site-header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 24), { passive: true });
 </script>
-
 </body>
 </html>
