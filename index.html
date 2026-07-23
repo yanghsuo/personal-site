@@ -283,7 +283,9 @@ const SITE_VER = (window.SITE && window.SITE.version) || 0;
 const saved = localStorage.getItem('mysite_data');
 const savedVer = saved ? (JSON.parse(saved)._ver || 0) : 0;
 let D;
-if (window.SITE && SITE_VER > savedVer) {
+// 内联配置有更新 → 清空旧缓存，强制用最新数据
+if (window.SITE && SITE_VER > 0 && SITE_VER !== savedVer) {
+  localStorage.removeItem('mysite_data');
   D = window.SITE;
   D._ver = SITE_VER;
   try { localStorage.setItem('mysite_data', JSON.stringify(D)); } catch(e){}
