@@ -296,23 +296,23 @@ if (window.SITE && SITE_VER > 0 && SITE_VER !== savedVer) {
 function saveData(){ try { localStorage.setItem('mysite_data', JSON.stringify(D)); } catch(e){} }
 
 function ensureDefaults(){
-  D.title = D.title || '个人主页';
+  D.title = '杨硕 · 个人主页';
   D.editPassword = D.editPassword || 'admin123';
-  D.nav = D.nav || {
-    logo: '👤 你的名字',
+  D.nav = {
+    logo: '👤 杨硕',
     links: [
       {label:'关于',href:'#about'},{label:'经历',href:'#experience'},
       {label:'项目',href:'#projects'},{label:'文章',href:'#articles'},{label:'联系',href:'#contact'}
     ]
   };
-  D.hero = D.hero || {emoji:'🧑‍💻',name:'你的名字',role:'头衔 · 城市',tagline:'简短的一句话自我介绍',links:[{icon:'📄',label:'简历',url:'#'},{icon:'🐙',label:'GitHub',url:'#'}]};
-  D.about = D.about || {label:'About',title:'关于我',desc:'更详细的自我介绍…'};
-  D.skills = D.skills || ['Kubernetes','Linux','网络','Python','SRE','监控'];
+  D.hero = {emoji:'🌐',name:'杨硕',role:'网络工程师 · 北京',tagline:'14年网络技术沉淀，精通路由协议、VXLAN、WiFi 及网络自动化编程。',links:[{icon:'📄',label:'简历',url:'#'},{icon:'🐙',label:'GitHub',url:'https://github.com/yanghsuo'}]};
+  D.about = {label:'About',title:'关于我',desc:'14年网络工程实战经验，深度掌握 BGP、OSPF 等路由协议，熟悉 VXLAN、ROCE、InfiniBand 等数据中心网络技术。擅长 WiFi 无线网络规划与优化，同时具备网络自动化编程能力，用 Python 驱动网络运维效率提升。'};
+  D.skills = ['Python','BGP','OSPF','VXLAN','InfiniBand','ROCE','WiFi','网络自动化'];
   D.timeline = D.timeline || [{date:'2024 - 至今',title:'公司',subtitle:'职位',desc:'工作内容'}];
   D.projects = D.projects || [{icon:'🔧',name:'项目',desc:'描述',stack:['技术']}];
   D.articles = D.articles || [{id:'1',date:'2026-07-23',title:'示例文章：如何搭建个人网站',summary:'这是一篇示例文章，点击阅读全文。','content':'这是文章正文。\n\n你可以在这里写任何内容。支持**粗体**、*斜体*和`行内代码`。\n\n```\n// 也支持代码块\nconsole.log("Hello World");\n```\n\n文章写完后点击右上角关闭即可。',tags:['教程','Web']}];
-  D.contact = D.contact || [{icon:'📧',text:'email@example.com'},{icon:'🐙',text:'github.com/xxx'}];
-  D.footer = D.footer || '© 2026 你的名字';
+  D.contact = [{icon:'📧',text:'823829415@qq.com'},{icon:'🐙',text:'github.com/yanghsuo'}];
+  D.footer = '© 2026 杨硕';
   saveData();
 }
 ensureDefaults();
