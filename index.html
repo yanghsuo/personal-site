@@ -36,9 +36,9 @@
   <!-- ============ Hero ============ -->
   <section class="hero">
     <div class="hero-left">
-      <span class="badge mono">NETWORK ENGINEER · 14 YEARS</span>
-      <h1 class="hero-title">构建<em>稳定可靠</em>的<br>大规模网络基础设施</h1>
-      <p class="hero-sub">我是杨硕，一名深耕数据中心网络 14 年的工程师。专注 BGP 路由架构、
+      <span class="badge mono" data-e="hero.badge">NETWORK ENGINEER · 14 YEARS</span>
+      <h1 class="hero-title" data-e="hero.title" data-html>构建<em>稳定可靠</em>的<br>大规模网络基础设施</h1>
+      <p class="hero-sub" data-e="hero.sub">我是杨硕，一名深耕数据中心网络 14 年的工程师。专注 BGP 路由架构、
         高性能无损网络（InfiniBand / RoCE）与 Python 网络自动化，让复杂网络变得简单、可控、可演进。</p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#articles">阅读我的文章 →</a>
@@ -97,22 +97,22 @@
   <section class="section" id="about">
     <span class="eyebrow mono">ABOUT</span>
     <h2 class="section-title">关于我</h2>
-    <p class="section-lead">从机房里的第一根网线，到横跨多个数据中心的路由体系——14 年来我一直在做同一件事：
+    <p class="section-lead" data-e="about.lead">从机房里的第一根网线，到横跨多个数据中心的路由体系——14 年来我一直在做同一件事：
       让网络成为业务最不需要担心的部分。日常与 BGP、OSPF、VXLAN 打交道，也热衷用 Python 把重复的运维工作自动化掉。</p>
     <div class="stats glass">
       <div class="stat">
-        <div class="stat-num mono">14<span>年</span></div>
-        <div class="stat-label">网络工程经验</div>
+        <div class="stat-num mono"><span class="n" data-e="stats.0.num">14</span><span data-e="stats.0.unit">年</span></div>
+        <div class="stat-label" data-e="stats.0.label">网络工程经验</div>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <div class="stat-num mono">50<span>+</span></div>
-        <div class="stat-label">数据中心网络项目</div>
+        <div class="stat-num mono"><span class="n" data-e="stats.1.num">50</span><span data-e="stats.1.unit">+</span></div>
+        <div class="stat-label" data-e="stats.1.label">数据中心网络项目</div>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <div class="stat-num mono">99.99<span>%</span></div>
-        <div class="stat-label">核心网络可用性</div>
+        <div class="stat-num mono"><span class="n" data-e="stats.2.num">99.99</span><span data-e="stats.2.unit">%</span></div>
+        <div class="stat-label" data-e="stats.2.label">核心网络可用性</div>
       </div>
     </div>
   </section>
@@ -204,20 +204,20 @@
     <span class="eyebrow mono">CONTACT</span>
     <h2 class="section-title">联系方式</h2>
     <div class="contact-card glass">
-      <h3 class="contact-statement">一起构建更可靠的网络。</h3>
-      <p class="contact-body">如果您的团队正在规划数据中心网络、优化 BGP 路由，或用自动化提升运维效率，欢迎随时交流。</p>
+      <h3 class="contact-statement" data-e="contact.statement">一起构建更可靠的网络。</h3>
+      <p class="contact-body" data-e="contact.body">如果您的团队正在规划数据中心网络、优化 BGP 路由，或用自动化提升运维效率，欢迎随时交流。</p>
       <div class="contact-divider"></div>
       <div class="contact-row">
         <div class="contact-col">
           <div class="contact-label mono">EMAIL</div>
-          <a class="contact-val" href="mailto:hi@yanghsuo.dev">hi@yanghsuo.dev</a>
+          <a class="contact-val" data-k="email" data-e="contact.email" href="mailto:823829415@qq.com">823829415@qq.com</a>
         </div>
         <div class="contact-col">
           <div class="contact-label mono">GITHUB</div>
-          <a class="contact-val" href="https://github.com/yanghsuo" target="_blank" rel="noopener">github.com/yanghsuo</a>
+          <a class="contact-val" data-k="github" data-e="contact.github" href="https://github.com/yanghsuo" target="_blank" rel="noopener">github.com/yanghsuo</a>
         </div>
       </div>
-      <a class="btn btn-primary contact-cta" href="mailto:hi@yanghsuo.dev">发送邮件 →</a>
+      <a class="btn btn-primary contact-cta" href="mailto:823829415@qq.com">发送邮件 →</a>
     </div>
   </section>
 
@@ -236,9 +236,11 @@
       <a href="#contact">联系</a>
     </nav>
   </div>
-  <div class="footer-copy mono">Copyright 2026 杨硕 (Yang Shuo) · Built with Deep Space Design System</div>
+  <div class="footer-copy mono" data-e="footer.copyright">Copyright 2026 杨硕 (Yang Shuo) · Built with Deep Space Design System</div>
 </footer>
 
+<script src="content.js"></script>
+<script src="admin.js"></script>
 <script>
 // 滚动淡入
 const io = new IntersectionObserver(es => es.forEach(e => {
