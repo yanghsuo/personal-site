@@ -1,16 +1,15 @@
 // ============================================================
 //  个人网站配置文件
-//  推荐：直接在网页上点 ✏️ 编辑，比改这个文件更方便
 //  编辑密码默认: admin123（登录后可在编辑面板修改）
 // ============================================================
 
 const SITE = {
 
-  title: "个人主页",
+  title: "杨硕 · 个人主页",
   editPassword: "admin123",
 
   nav: {
-    logo: "👤 你的名字",
+    logo: "👤 杨硕",
     links: [
       { label: "关于",   href: "#about" },
       { label: "经历",   href: "#experience" },
@@ -21,36 +20,36 @@ const SITE = {
   },
 
   hero: {
-    emoji: "🧑‍💻",
-    name: "你的名字",
-    role: "头衔 · 城市",
-    tagline: "简短的一句话自我介绍，让人一眼记住你。",
+    emoji: "🌐",
+    name: "杨硕",
+    role: "网络工程师 · 北京",
+    tagline: "14年网络技术沉淀，精通路由协议、VXLAN、WiFi 及网络自动化编程。",
     links: [
       { icon: "📄", label: "简历", url: "#" },
-      { icon: "🐙", label: "GitHub", url: "#" }
+      { icon: "🐙", label: "GitHub", url: "https://github.com/yanghsuo" }
     ]
   },
 
   about: {
     label: "About",
     title: "关于我",
-    desc: "这里写一段自我介绍。可以介绍你的背景、专注领域和兴趣方向。"
+    desc: "14年网络工程实战经验，深度掌握 BGP、OSPF 等路由协议，熟悉 VXLAN、ROCE、InfiniBand 等数据中心网络技术。擅长 WiFi 无线网络规划与优化，同时具备网络自动化编程能力，用 Python 驱动网络运维效率提升。"
   },
 
-  skills: ["Kubernetes", "Linux", "网络", "Python", "SRE", "监控"],
+  skills: ["Python", "BGP", "OSPF", "VXLAN", "InfiniBand", "ROCE", "WiFi", "网络自动化"],
 
   timeline: [
     {
       date: "2024 - 至今",
       title: "公司名称",
-      subtitle: "职位",
-      desc: "工作内容描述，2-3句话概括核心职责和成果。"
+      subtitle: "网络工程师",
+      desc: "负责数据中心网络架构设计与运维，推动网络自动化体系建设。"
     },
     {
-      date: "2020 - 2023",
+      date: "2015 - 2023",
       title: "上一家公司",
-      subtitle: "职位",
-      desc: "工作内容描述。"
+      subtitle: "网络工程师",
+      desc: "负责大规模园区网与数据中心的规划、部署和优化。"
     }
   ],
 
@@ -59,13 +58,13 @@ const SITE = {
       icon: "🔧",
       name: "项目名称",
       desc: "项目简介，说明背景、角色和关键成果。",
-      stack: ["Go", "K8s", "gRPC"]
+      stack: ["Python", "BGP", "VXLAN"]
     },
     {
       icon: "🚀",
       name: "项目二",
       desc: "项目简介。",
-      stack: ["Python", "Django"]
+      stack: ["Python", "ROCE"]
     }
   ],
 
@@ -82,9 +81,9 @@ const SITE = {
 
   contact: [
     { icon: "📧", text: "email@example.com" },
-    { icon: "🐙", text: "github.com/你的ID" }
+    { icon: "🐙", text: "github.com/yanghsuo" }
   ],
 
-  footer: "© 2026 你的名字"
+  footer: "© 2026 杨硕"
 
 };
