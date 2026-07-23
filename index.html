@@ -224,8 +224,17 @@ body.editing .del-btn{display:flex}
 
 <script>
 // ==================== 数据层 ====================
+const SITE_VER = (window.SITE && window.SITE.version) || 0;
 const saved = localStorage.getItem('mysite_data');
-const D = saved ? JSON.parse(saved) : (window.SITE || {});
+const savedVer = saved ? (JSON.parse(saved)._ver || 0) : 0;
+let D;
+if (window.SITE && SITE_VER > savedVer) {
+  D = window.SITE;
+  D._ver = SITE_VER;
+  try { localStorage.setItem('mysite_data', JSON.stringify(D)); } catch(e){}
+} else {
+  D = saved ? JSON.parse(saved) : (window.SITE || {});
+}
 
 function saveData(){ try { localStorage.setItem('mysite_data', JSON.stringify(D)); } catch(e){} }
 

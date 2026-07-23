@@ -5,6 +5,7 @@
 
 const SITE = {
 
+  version: 3,
   title: "杨硕 · 个人主页",
   editPassword: "admin123",
 
