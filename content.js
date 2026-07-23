@@ -80,7 +80,7 @@ const SITE = {
   ],
 
   contact: [
-    { icon: "📧", text: "email@example.com" },
+    { icon: "📧", text: "823829415@qq.com" },
     { icon: "🐙", text: "github.com/yanghsuo" }
   ],
 
