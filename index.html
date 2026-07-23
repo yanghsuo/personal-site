@@ -226,6 +226,8 @@ body.editing .del-btn{display:flex}
 const saved = localStorage.getItem('mysite_data');
 const D = saved ? JSON.parse(saved) : (window.SITE || {});
 
+function saveData(){ try { localStorage.setItem('mysite_data', JSON.stringify(D)); } catch(e){} }
+
 function ensureDefaults(){
   D.title = D.title || '个人主页';
   D.editPassword = D.editPassword || 'admin123';
