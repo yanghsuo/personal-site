@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全部文章 · 杨硕 (Yang Shuo)</title>
+<meta name="description" content="杨硕（Yang Shuo）的文章列表 — 数据中心网络、BGP 路由、网络自动化等主题，按主题筛选浏览。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* 子页面文章列表专属微调 */
+  .back-home {
+    display: inline-block;
+    margin-bottom: 26px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: .5px;
+    transition: color .18s ease;
+  }
+  .back-home:hover { color: var(--accent); }
+  .nav a.active { color: var(--accent); }
+  /* 标签筛选目录 */
+  .tag-filter { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 6px; }
+  .tag-btn {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    background: var(--glass);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: color .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .tag-btn:hover { color: var(--accent); border-color: rgba(56, 189, 248, 0.4); }
+  .tag-btn.active { color: #0A0B0F; background: var(--accent); border-color: var(--accent); }
+  /* 子页文章目录：摘要 + 跳转详情 */
+  .article-excerpt { margin-top: 8px; color: var(--text-dim); font-size: 14px; line-height: 1.65; }
+  .article-list .article { cursor: pointer; transition: border-color .18s ease, transform .18s ease; }
+  .article-list .article:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-2px); }
+</style>
+</head>
+<body>
+
+<!-- 顶部光晕 -->
+<div class="glow-top" aria-hidden="true"></div>
+
+<!-- ============ Header ============ -->
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <span class="logo-mark"></span>
+    杨硕<span class="logo-en">· Yang Shuo</span>
+  </a>
+  <nav class="nav">
+    <a href="index.html#about">关于</a>
+    <a href="index.html#skills">技能</a>
+    <a href="index.html#experience">经历</a>
+    <a href="#articles" class="active">文章</a>
+    <a href="index.html#contact">联系</a>
+  </nav>
+  <a class="btn btn-ghost header-cta" href="index.html#contact">取得联系</a>
+</header>
+
+<main id="top">
+
+  <!-- ============ Articles ============ -->
+  <section class="section" id="articles">
+    <a class="back-home" href="index.html">← 返回首页</a>
+    <span class="eyebrow mono">WRITING</span>
+    <h2 class="section-title">全部文章</h2>
+    <p class="section-lead">这里收录了杨硕写过的所有文章，按时间倒序排列。点击下方标签可按主题筛选。</p>
+    <div class="tag-filter" id="tagFilter"><!-- 由页面脚本依据 content.js 自动生成 --></div>
+    <div class="article-list" data-excerpt><!-- 由 admin.js 依据 content.js 的 SITE.articles 渲染全部文章（含摘要与跳转详情页的链接） --></div>
+  </section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="site-footer">
+  <div class="footer-divider"></div>
+  <div class="footer-top">
+    <div class="footer-brand">杨硕 · Yang Shuo</div>
+    <nav class="footer-nav">
+      <a href="index.html#about">关于</a>
+      <a href="index.html#skills">技能</a>
+      <a href="index.html#experience">经历</a>
+      <a href="#articles">文章</a>
+      <a href="index.html#contact">联系</a>
+      <a href="admin.html">后台</a>
+    </nav>
+  </div>
+  <div class="footer-copy mono" data-e="footer.copyright">Copyright 2026 杨硕 (Yang Shuo) · Built with Deep Space Design System</div>
+</footer>
+
+<script src="content.js"></script>
+<script src="admin.js"></script>
+<script>
+// 滚动淡入
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: 0.12 });
+document.querySelectorAll('.section').forEach(el => { el.classList.add('reveal'); io.observe(el); });
+// Header 滚动加背景
+const header = document.querySelector('.site-header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 24), { passive: true });
+
+// 标签筛选目录
+(function () {
+  var box = document.getElementById('tagFilter');
+  if (!box || typeof SITE === 'undefined') return;
+  function collectTags() {
+    var s = {};
+    (SITE.articles || []).forEach(function (a) { (a.tags || []).forEach(function (t) { s[t] = 1; }); });
+    return Object.keys(s);
+  }
+  function render(cur) {
+    box.setAttribute('data-cur', cur);
+    box.innerHTML = '';
+    ['all'].concat(collectTags()).forEach(function (t) {
+      var b = document.createElement('button');
+      b.className = 'tag-btn' + (t === cur ? ' active' : '');
+      b.textContent = (t === 'all' ? '全部' : t);
+      b.onclick = function () { render(t); apply(t); };
+      box.appendChild(b);
+    });
+  }
+  function apply(cur) {
+    document.querySelectorAll('#articles .article').forEach(function (el) {
+      if (cur === 'all') { el.style.display = ''; return; }
+      var ts = (el.getAttribute('data-tags') || '').split(' ');
+      el.style.display = ts.indexOf(cur) >= 0 ? '' : 'none';
+    });
+  }
+  render('all'); apply('all');
+  // admin 增删文章后会重渲染列表，自动重建筛选目录
+  var list = document.querySelector('#articles .article-list');
+  if (list && typeof MutationObserver !== 'undefined') {
+    new MutationObserver(function () {
+      var cur = box.getAttribute('data-cur') || 'all';
+      render(cur); apply(cur);
+    }).observe(list, { childList: true });
+  }
+})();
+</script>
+</body>
+</html>
