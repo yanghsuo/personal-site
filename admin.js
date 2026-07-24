@@ -81,14 +81,28 @@
       var list = D.articles;
       var limit = parseInt(al.getAttribute('data-limit'), 10);
       if (limit > 0) list = list.slice(0, limit); // 首页只展示最近 N 篇
+      var showBody = al.hasAttribute('data-show-body');
+      var excerpt = al.hasAttribute('data-excerpt');
       al.innerHTML = list.map(function (a, i) {
-        return '<a class="article glass" data-i="' + i + '" href="' + esc(a.url || '#') + '">' +
+        var tagsAttr = (a.tags || []).map(esc).join(' ');
+        var extra = '';
+        if (showBody) {
+          // 子页：展示完整正文（data-e 让 #admin 可直接编辑）
+          extra = '<div class="article-body" data-e="articles.' + i + '.body">' + esc(a.body || '') + '</div>';
+        } else if (excerpt && a.body) {
+          // 首页预览：仅展示前 80 字摘要
+          var ex = a.body.replace(/\s+/g, ' ').trim();
+          if (ex.length > 80) ex = ex.slice(0, 80) + '…';
+          extra = '<div class="article-excerpt">' + esc(ex) + '</div>';
+        }
+        return '<a class="article glass" data-i="' + i + '" data-tags="' + tagsAttr + '" href="' + esc(a.url || '#') + '">' +
           '<div class="article-date mono" data-e="articles.' + i + '.date">' + esc(a.date) + '</div>' +
           '<div class="article-main">' +
           '<h3 data-e="articles.' + i + '.title">' + esc(a.title) + '</h3>' +
           '<div class="tags mono">' + (a.tags || []).map(function (t, j) {
             return '<span data-e="articles.' + i + '.tags.' + j + '">' + esc(t) + '</span>';
-          }).join('') + '</div></div>' +
+          }).join('') + '</div>' + extra +
+          '</div>' +
           '<span class="article-arrow">→</span></a>';
       }).join('');
     }
@@ -168,7 +182,7 @@
 
   // ---------- 面板操作 ----------
   function addArticle() {
-    D.articles.unshift({ date: new Date().toISOString().slice(0, 10), title: '新文章标题', tags: ['标签'], url: '#' });
+    D.articles.unshift({ date: new Date().toISOString().slice(0, 10), title: '新文章标题', tags: ['标签'], url: '#', body: '在这里撰写正文……' });
     save(); hydrate();
   }
   function delArticle() {
