@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全部文章 · 杨硕 (Yang Shuo)</title>
+<meta name="description" content="杨硕（Yang Shuo）的文章列表 — 数据中心网络、BGP 路由、网络自动化等主题。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* 子页面文章列表专属微调 */
+  .back-home {
+    display: inline-block;
+    margin-bottom: 26px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: .5px;
+    transition: color .18s ease;
+  }
+  .back-home:hover { color: var(--accent); }
+  .nav a.active { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- 顶部光晕 -->
+<div class="glow-top" aria-hidden="true"></div>
+
+<!-- ============ Header ============ -->
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <span class="logo-mark"></span>
+    杨硕<span class="logo-en">· Yang Shuo</span>
+  </a>
+  <nav class="nav">
+    <a href="index.html#about">关于</a>
+    <a href="index.html#skills">技能</a>
+    <a href="index.html#experience">经历</a>
+    <a href="#articles" class="active">文章</a>
+    <a href="index.html#contact">联系</a>
+  </nav>
+  <a class="btn btn-ghost header-cta" href="index.html#contact">取得联系</a>
+</header>
+
+<main id="top">
+
+  <!-- ============ Articles ============ -->
+  <section class="section" id="articles">
+    <a class="back-home" href="index.html">← 返回首页</a>
+    <span class="eyebrow mono">WRITING</span>
+    <h2 class="section-title">全部文章</h2>
+    <p class="section-lead">这里收录了杨硕写过的所有文章，按时间倒序排列。点击任意一篇即可阅读。</p>
+    <div class="article-list"><!-- 由 admin.js 依据 content.js 的 SITE.articles 渲染全部文章 --></div>
+  </section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="site-footer">
+  <div class="footer-divider"></div>
+  <div class="footer-top">
+    <div class="footer-brand">杨硕 · Yang Shuo</div>
+    <nav class="footer-nav">
+      <a href="index.html#about">关于</a>
+      <a href="index.html#skills">技能</a>
+      <a href="index.html#experience">经历</a>
+      <a href="#articles">文章</a>
+      <a href="index.html#contact">联系</a>
+    </nav>
+  </div>
+  <div class="footer-copy mono" data-e="footer.copyright">Copyright 2026 杨硕 (Yang Shuo) · Built with Deep Space Design System</div>
+</footer>
+
+<script src="content.js"></script>
+<script src="admin.js"></script>
+<script>
+// 滚动淡入
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: 0.12 });
+document.querySelectorAll('.section').forEach(el => {
+  el.classList.add('reveal'); io.observe(el);
+});
+// Header 滚动加背景
+const header = document.querySelector('.site-header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 24), { passive: true });
+</script>
+</body>
+</html>
