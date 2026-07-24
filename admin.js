@@ -78,7 +78,10 @@
     // 文章
     var al = $('.article-list');
     if (al && D.articles) {
-      al.innerHTML = D.articles.map(function (a, i) {
+      var list = D.articles;
+      var limit = parseInt(al.getAttribute('data-limit'), 10);
+      if (limit > 0) list = list.slice(0, limit); // 首页只展示最近 N 篇
+      al.innerHTML = list.map(function (a, i) {
         return '<a class="article glass" data-i="' + i + '" href="' + esc(a.url || '#') + '">' +
           '<div class="article-date mono" data-e="articles.' + i + '.date">' + esc(a.date) + '</div>' +
           '<div class="article-main">' +
