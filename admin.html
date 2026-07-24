@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文章后台 · 杨硕 (Yang Shuo)</title>
+<meta name="description" content="文章后台 — 编写与发布文章">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body { padding: 0; }
+  .adm-topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 15px 24px;
+    background: rgba(10,11,15,.82); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .adm-brand { font-weight: 700; font-size: 17px; letter-spacing: .3px; }
+  .adm-brand span { color: var(--text-dim); font-weight: 500; font-size: 14px; margin-left: 6px; }
+  .adm-main { max-width: 920px; margin: 0 auto; padding: 28px 20px 90px; }
+  .adm-card {
+    background: var(--glass); border: 1px solid var(--line);
+    border-radius: var(--radius-card); padding: 20px 22px; margin-bottom: 22px;
+  }
+  .adm-card-head {
+    display: flex; align-items: center; justify-content: space-between;
+    font-weight: 600; font-size: 16px; margin-bottom: 12px;
+  }
+  .adm-card-head .btn { margin-left: auto; }
+  .adm-caret { color: var(--text-dim); transition: transform .2s; display: inline-block; }
+  .adm-caret.collapsed { transform: rotate(-90deg); }
+  .adm-form label { display: block; font-size: 13.5px; color: var(--text-dim); margin: 14px 0 6px; }
+  .adm-form label:first-child { margin-top: 0; }
+  .adm-form input, .adm-form textarea {
+    width: 100%; padding: 11px 13px; border-radius: 10px;
+    background: var(--bg-soft); border: 1px solid var(--line);
+    color: var(--text); font-family: inherit; font-size: 14.5px;
+  }
+  .adm-form textarea { resize: vertical; line-height: 1.7; }
+  .adm-form input:focus, .adm-form textarea:focus { outline: none; border-color: var(--accent); }
+  .adm-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .adm-row > label { flex: 1; min-width: 160px; }
+  .adm-list { display: flex; flex-direction: column; gap: 12px; }
+  .adm-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 14px 16px; border-radius: 12px;
+    background: var(--bg-soft); border: 1px solid var(--line-soft);
+  }
+  .adm-item-main { min-width: 0; }
+  .adm-item-date { font-size: 12px; color: var(--text-dim); }
+  .adm-item-title { font-weight: 600; margin: 2px 0 6px; }
+  .adm-item-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .adm-empty { color: var(--text-dim); padding: 8px 2px; }
+  .adm-preview {
+    margin-top: 8px; padding: 14px 16px; border-radius: 12px;
+    background: var(--bg-soft); border: 1px dashed var(--line);
+    font-size: 14px; line-height: 1.7; overflow-x: auto;
+  }
+  .adm-preview h2, .adm-preview h3, .adm-preview h4 { color: var(--text); margin: 14px 0 6px; line-height: 1.4; }
+  .adm-preview h2 { font-size: 19px; } .adm-preview h3 { font-size: 17px; } .adm-preview h4 { font-size: 15.5px; }
+  .adm-preview p { margin: 9px 0; }
+  .adm-preview ul { margin: 9px 0; padding-left: 22px; }
+  .adm-preview li { margin: 4px 0; }
+  .adm-preview code { font-family: var(--font-mono); background: var(--glass-strong); padding: 1px 6px; border-radius: 6px; color: var(--accent); font-size: 13px; }
+  .adm-preview strong { color: var(--text); }
+  .adm-preview-label { font-size: 12.5px; color: var(--text-dim); margin-top: 14px; }
+  .adm-note { font-size: 12.5px; color: var(--text-dim); line-height: 1.65; margin-top: 12px; }
+  .adm-status { font-size: 13.5px; margin-top: 14px; min-height: 18px; }
+  .adm-status.ok { color: #4ade80; }
+  .adm-status.err { color: #f87171; }
+  .adm-danger { color: #f87171; border-color: rgba(248,113,113,.4); }
+  .adm-danger:hover { background: rgba(248,113,113,.12); }
+  .btn.small { padding: 8px 16px; font-size: 13.5px; }
+  .adm-hint { font-size: 12.5px; color: var(--text-dim); margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="adm-topbar">
+  <div class="adm-brand">文章后台 <span>· 杨硕</span></div>
+  <a class="btn btn-ghost small" href="index.html">← 返回站点</a>
+</div>
+
+<main class="adm-main">
+
+  <!-- 发布设置 -->
+  <section class="adm-card">
+    <div class="adm-card-head" data-toggle="settingsBody" style="cursor:pointer">
+      <span>⚙ 发布设置</span>
+      <span class="adm-caret" id="setCaret">▾</span>
+    </div>
+    <div class="adm-card-body adm-form" id="settingsBody">
+      <label>GitHub Token（PAT，需 repo 权限）
+        <input type="password" id="setToken" placeholder="ghp_... 或 github_pat_..." autocomplete="off"></label>
+      <label>仓库 owner/repo
+        <input id="setRepo" placeholder="yanghsuo/personal-site"></label>
+      <div class="adm-row">
+        <label>分支
+          <input id="setBranch" placeholder="main"></label>
+        <label>content.js 路径
+          <input id="setPath" placeholder="content.js"></label>
+      </div>
+      <div class="adm-row" style="margin-top:16px">
+        <button class="btn small" id="saveSettings">保存设置</button>
+        <button class="btn btn-ghost small" id="pullBtn">从仓库拉取最新</button>
+      </div>
+      <p class="adm-note">Token 仅保存在本机浏览器 localStorage，不会写入代码或上传到任何第三方。建议使用「仅本仓库」的细粒度 PAT（Content: Read and write）。点「发布」即用你的身份直接提交 content.js 到仓库，GitHub Pages 随后自动生效。</p>
+    </div>
+  </section>
+
+  <!-- 文章列表 -->
+  <section class="adm-card">
+    <div class="adm-card-head">
+      <span>文章列表</span>
+      <button class="btn btn-primary small" id="newBtn">＋ 新建文章</button>
+    </div>
+    <div class="adm-list" id="articleList"></div>
+  </section>
+
+  <!-- 编辑器 -->
+  <section class="adm-card" id="editorCard" hidden>
+    <div class="adm-card-head">编辑文章</div>
+    <div class="adm-card-body adm-form">
+      <label>标题
+        <input id="fTitle" placeholder="文章标题"></label>
+      <div class="adm-row">
+        <label>日期
+          <input id="fDate" type="date"></label>
+        <label>标签（逗号分隔）
+          <input id="fTags" placeholder="教程, Web"></label>
+      </div>
+      <label>链接 URL（文章页地址，可留 #）
+        <input id="fUrl" placeholder="#"></label>
+      <label>正文（支持 Markdown：# 标题、**粗体**、*斜体*、`代码`、- 列表）
+        <textarea id="fBody" rows="14" placeholder="在此撰写正文……"></textarea></label>
+      <div class="adm-preview-label">实时预览</div>
+      <div class="adm-preview" id="fPreview"></div>
+      <div class="adm-row" style="margin-top:18px">
+        <button class="btn btn-primary small" id="saveBtn">保存到本地</button>
+        <button class="btn small" id="publishBtn">🚀 发布到 GitHub</button>
+        <button class="btn btn-ghost small" id="cancelBtn">取消</button>
+        <button class="btn btn-ghost adm-danger small" id="delBtn">删除</button>
+      </div>
+      <p class="adm-status" id="status"></p>
+    </div>
+  </section>
+
+</main>
+
+<script src="content.js"></script>
+<script src="admin.js"></script>
+<script src="admin-app.js"></script>
+</body>
+</html>
