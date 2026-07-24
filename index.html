@@ -9,6 +9,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  /* 首页文章区：「查看全部」入口 */
+  .articles-more { margin-top: 28px; }
+  .articles-count { margin: 0 6px; opacity: .65; font-family: "JetBrains Mono", monospace; }
+</style>
 </head>
 <body>
 
@@ -171,7 +176,7 @@
   <section class="section" id="articles">
     <span class="eyebrow mono">WRITING</span>
     <h2 class="section-title">文章</h2>
-    <div class="article-list">
+    <div class="article-list" data-limit="3">
       <a class="article glass" href="#">
         <div class="article-date mono">2026-07-23</div>
         <div class="article-main">
@@ -196,6 +201,9 @@
         </div>
         <span class="article-arrow">→</span>
       </a>
+    </div>
+    <div class="articles-more">
+      <a class="btn btn-ghost" href="articles.html">查看全部文章<span class="articles-count" id="articlesTotal"></span>→</a>
     </div>
   </section>
 
@@ -252,6 +260,11 @@ document.querySelectorAll('.section, .hero-left, .hero-right').forEach(el => {
 // Header 滚动加背景
 const header = document.querySelector('.site-header');
 addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 24), { passive: true });
+// 文章总数（查看全部入口）
+const _at = document.getElementById('articlesTotal');
+if (_at && typeof SITE !== 'undefined' && SITE.articles) {
+  _at.textContent = '（' + SITE.articles.length + '）';
+}
 </script>
 </body>
 </html>
