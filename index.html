@@ -13,6 +13,8 @@
   /* 首页文章区：「查看全部」入口 */
   .articles-more { margin-top: 28px; }
   .articles-count { margin: 0 6px; opacity: .65; font-family: "JetBrains Mono", monospace; }
+  /* 首页文章预览：正文摘要 */
+  .article-excerpt { margin-top: 8px; color: var(--text-dim); font-size: 13.5px; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -30,7 +32,7 @@
     <a href="#about">关于</a>
     <a href="#skills">技能</a>
     <a href="#experience">经历</a>
-    <a href="#articles">文章</a>
+    <a href="articles.html">文章</a>
     <a href="#contact">联系</a>
   </nav>
   <a class="btn btn-ghost header-cta" href="#contact">取得联系</a>
@@ -46,7 +48,7 @@
       <p class="hero-sub" data-e="hero.sub">我是杨硕，一名深耕数据中心网络 14 年的工程师。专注 BGP 路由架构、
         高性能无损网络（InfiniBand / RoCE）与 Python 网络自动化，让复杂网络变得简单、可控、可演进。</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="#articles">阅读我的文章 →</a>
+        <a class="btn btn-primary" href="articles.html">阅读我的文章 →</a>
         <a class="btn btn-ghost" href="#experience">查看工作经历</a>
       </div>
     </div>
@@ -176,7 +178,7 @@
   <section class="section" id="articles">
     <span class="eyebrow mono">WRITING</span>
     <h2 class="section-title">文章</h2>
-    <div class="article-list" data-limit="3">
+    <div class="article-list" data-limit="3" data-excerpt>
       <a class="article glass" href="#">
         <div class="article-date mono">2026-07-23</div>
         <div class="article-main">
@@ -240,7 +242,7 @@
       <a href="#about">关于</a>
       <a href="#skills">技能</a>
       <a href="#experience">经历</a>
-      <a href="#articles">文章</a>
+      <a href="articles.html">文章</a>
       <a href="#contact">联系</a>
     </nav>
   </div>
