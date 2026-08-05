@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="'Noto Sans SC', system-ui, sans-serif">
+  <defs>
+    <marker id="arS" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#64748B"/></marker>
+    <marker id="arA" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#38BDF8"/></marker>
+  </defs>
+  <rect width="720" height="330" rx="14" fill="#0A0B0F"/>
+  <text x="24" y="34" fill="#F1F5F9" font-size="17" font-weight="600">图 1　传统 TCP/IP 与 RDMA 数据路径对比</text>
+  <line x1="24" y1="48" x2="696" y2="48" stroke="#FFFFFF" stroke-opacity="0.10"/>
+
+  <!-- TCP/IP lane -->
+  <text x="24" y="76" fill="#94A3B8" font-size="13">传统 TCP/IP（本机 → 网络 → 对端）</text>
+  <g font-size="12">
+    <rect x="24" y="90" width="92" height="36" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+    <text x="70" y="113" fill="#F1F5F9" text-anchor="middle">应用内存</text>
+    <rect x="126" y="90" width="92" height="36" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+    <text x="172" y="113" fill="#F1F5F9" text-anchor="middle">内核缓冲</text>
+    <rect x="228" y="90" width="92" height="36" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+    <text x="274" y="113" fill="#F1F5F9" text-anchor="middle">网卡</text>
+    <line x1="116" y1="108" x2="124" y2="108" stroke="#64748B" stroke-width="1.6" marker-end="url(#arS)"/>
+    <line x1="218" y1="108" x2="226" y2="108" stroke="#64748B" stroke-width="1.6" marker-end="url(#arS)"/>
+    <line x1="320" y1="108" x2="418" y2="108" stroke="#64748B" stroke-width="1.6" marker-end="url(#arS)"/>
+    <path d="M320 108 C 360 82, 380 82, 420 108" stroke="#64748B" stroke-width="1.4" fill="none" stroke-dasharray="4 4"/>
+    <text x="370" y="80" fill="#64748B" font-size="11" text-anchor="middle">网络</text>
+    <rect x="420" y="90" width="92" height="36" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+    <text x="466" y="113" fill="#F1F5F9" text-anchor="middle">网卡(对端)</text>
+    <rect x="522" y="90" width="92" height="36" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+    <text x="568" y="113" fill="#F1F5F9" text-anchor="middle">内核缓冲</text>
+    <rect x="624" y="90" width="72" height="36" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+    <text x="660" y="113" fill="#F1F5F9" text-anchor="middle">应用</text>
+    <line x1="512" y1="108" x2="520" y2="108" stroke="#64748B" stroke-width="1.6" marker-end="url(#arS)"/>
+    <line x1="614" y1="108" x2="622" y2="108" stroke="#64748B" stroke-width="1.6" marker-end="url(#arS)"/>
+  </g>
+  <text x="24" y="150" fill="#FBBF24" font-size="12.5">4 次内存拷贝 · 多次上下文切换 · CPU 高频中断参与搬运</text>
+
+  <!-- RDMA lane -->
+  <text x="24" y="186" fill="#94A3B8" font-size="13">RDMA（本机 → 网络 → 对端）</text>
+  <g font-size="12">
+    <rect x="24" y="198" width="92" height="36" rx="8" fill="rgba(52,211,153,0.10)" stroke="#34D399"/>
+    <text x="70" y="221" fill="#F1F5F9" text-anchor="middle">应用内存</text>
+    <rect x="126" y="198" width="92" height="36" rx="8" fill="rgba(56,189,248,0.12)" stroke="#38BDF8"/>
+    <text x="172" y="221" fill="#F1F5F9" text-anchor="middle">HCA 网卡</text>
+    <line x1="116" y1="216" x2="124" y2="216" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arA)"/>
+    <path d="M218 216 C 258 190, 290 190, 330 216" stroke="#38BDF8" stroke-width="1.4" fill="none" stroke-dasharray="4 4"/>
+    <text x="274" y="188" fill="#38BDF8" font-size="11" text-anchor="middle">网络</text>
+    <line x1="320" y1="216" x2="328" y2="216" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arA)"/>
+    <rect x="330" y="198" width="92" height="36" rx="8" fill="rgba(56,189,248,0.12)" stroke="#38BDF8"/>
+    <text x="376" y="221" fill="#F1F5F9" text-anchor="middle">HCA(对端)</text>
+    <rect x="432" y="198" width="92" height="36" rx="8" fill="rgba(52,211,153,0.10)" stroke="#34D399"/>
+    <text x="478" y="221" fill="#F1F5F9" text-anchor="middle">应用内存</text>
+    <line x1="422" y1="216" x2="430" y2="216" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arA)"/>
+  </g>
+  <text x="24" y="258" fill="#34D399" font-size="12.5">0 拷贝 · 内核旁路 · CPU 近乎不参与数据搬运</text>
+
+  <!-- latency badges -->
+  <g font-size="12">
+    <rect x="470" y="138" width="226" height="26" rx="13" fill="rgba(251,191,36,0.12)" stroke="#FBBF24"/>
+    <text x="583" y="155" fill="#FBBF24" text-anchor="middle">TCP/IP 单向延迟：约数十 μs</text>
+    <rect x="470" y="246" width="226" height="26" rx="13" fill="rgba(52,211,153,0.12)" stroke="#34D399"/>
+    <text x="583" y="263" fill="#34D399" text-anchor="middle">RDMA 单向延迟：亚微秒 ~ 几 μs</text>
+  </g>
+</svg>

@@ -51,6 +51,17 @@
   .article-body li { margin: 6px 0; color: var(--text-dim); }
   .article-body code { font-family: var(--font-mono); background: var(--glass-strong); padding: 2px 7px; border-radius: 6px; color: var(--accent); font-size: 13.5px; }
   .article-body strong { color: var(--text); }
+  /* 文章内图表（md2html 的 ![图注](路径) 渲染为 figure） */
+  .article-body figure.article-fig { margin: 30px 0; text-align: center; }
+  .article-body figure.article-fig img {
+    max-width: 100%; height: auto; display: inline-block;
+    border: 1px solid var(--line); border-radius: 14px; background: var(--bg-soft);
+    box-shadow: 0 14px 46px rgba(0,0,0,.42);
+  }
+  .article-body figure.article-fig figcaption {
+    margin-top: 13px; font-size: 12.5px; color: var(--text-dim);
+    font-family: "JetBrains Mono", monospace; letter-spacing: .2px;
+  }
   .article-nav {
     display: flex; justify-content: space-between; gap: 16px;
     margin-top: 48px; padding-top: 26px; border-top: 1px solid var(--line);

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="'Noto Sans SC', system-ui, sans-serif">
+  <rect width="720" height="390" rx="14" fill="#0A0B0F"/>
+  <text x="24" y="34" fill="#F1F5F9" font-size="17" font-weight="600">图 2　三种网络的协议栈对比</text>
+  <line x1="24" y1="48" x2="696" y2="48" stroke="#FFFFFF" stroke-opacity="0.10"/>
+
+  <!-- column headers -->
+  <text x="125" y="86" fill="#94A3B8" font-size="14" font-weight="600" text-anchor="middle">传统 TCP/IP</text>
+  <text x="360" y="86" fill="#38BDF8" font-size="14" font-weight="600" text-anchor="middle">RDMA over InfiniBand</text>
+  <text x="595" y="86" fill="#38BDF8" font-size="14" font-weight="600" text-anchor="middle">RDMA over Ethernet (RoCE v2)</text>
+
+  <g font-size="12.5" text-anchor="middle">
+    <!-- TCP/IP column (slate) -->
+    <g>
+      <rect x="30" y="104" width="190" height="40" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+      <text x="125" y="129" fill="#F1F5F9">应用程序｜用户态</text>
+      <rect x="30" y="152" width="190" height="40" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+      <text x="125" y="177" fill="#F1F5F9">Socket｜内核态</text>
+      <rect x="30" y="200" width="190" height="40" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+      <text x="125" y="225" fill="#F1F5F9">TCP｜内核态</text>
+      <rect x="30" y="248" width="190" height="40" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+      <text x="125" y="273" fill="#F1F5F9">IP｜内核态</text>
+      <rect x="30" y="296" width="190" height="40" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+      <text x="125" y="321" fill="#F1F5F9">以太网｜驱动</text>
+    </g>
+    <!-- InfiniBand column (accent) -->
+    <g>
+      <rect x="265" y="104" width="190" height="40" rx="8" fill="rgba(52,211,153,0.10)" stroke="#34D399"/>
+      <text x="360" y="129" fill="#F1F5F9">应用程序｜用户态</text>
+      <rect x="265" y="152" width="190" height="40" rx="8" fill="rgba(56,189,248,0.10)" stroke="#38BDF8"/>
+      <text x="360" y="177" fill="#F1F5F9">Verbs API｜用户态</text>
+      <rect x="265" y="200" width="190" height="40" rx="8" fill="rgba(56,189,248,0.10)" stroke="#38BDF8"/>
+      <text x="360" y="225" fill="#F1F5F9">IB 传输层｜硬件</text>
+      <rect x="265" y="248" width="190" height="40" rx="8" fill="rgba(56,189,248,0.10)" stroke="#38BDF8"/>
+      <text x="360" y="273" fill="#F1F5F9">IB 链路层｜硬件</text>
+    </g>
+    <!-- RoCE column (accent) -->
+    <g>
+      <rect x="500" y="104" width="190" height="40" rx="8" fill="rgba(52,211,153,0.10)" stroke="#34D399"/>
+      <text x="595" y="129" fill="#F1F5F9">应用程序｜用户态</text>
+      <rect x="500" y="152" width="190" height="40" rx="8" fill="rgba(56,189,248,0.10)" stroke="#38BDF8"/>
+      <text x="595" y="177" fill="#F1F5F9">Verbs API｜用户态</text>
+      <rect x="500" y="200" width="190" height="40" rx="8" fill="rgba(56,189,248,0.10)" stroke="#38BDF8"/>
+      <text x="595" y="225" fill="#F1F5F9">RoCE / UDP｜硬件</text>
+      <rect x="500" y="248" width="190" height="40" rx="8" fill="rgba(56,189,248,0.10)" stroke="#38BDF8"/>
+      <text x="595" y="273" fill="#F1F5F9">IP｜内核/硬件</text>
+      <rect x="500" y="296" width="190" height="40" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.16"/>
+      <text x="595" y="321" fill="#F1F5F9">以太网｜驱动</text>
+    </g>
+  </g>
+
+  <text x="24" y="362" fill="#94A3B8" font-size="12.5">RDMA 三条路径的共同点：用 <tspan fill="#38BDF8">Verbs 接口</tspan> 绕过操作系统内核，让应用直接驱动网卡硬件完成收发——这正是「内核旁路」。</text>
+  <text x="24" y="380" fill="#94A3B8" font-size="12.5">InfiniBand 自带完整传输层；RoCE 把 RDMA 封装进 UDP 跑在以太网之上，因此依赖无损以太网。</text>
+</svg>

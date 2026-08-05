@@ -40,6 +40,7 @@
       else if ((m = s.match(/^##\s+(.*)$/))) { closeList(); html += '<h3>' + inline(m[1]) + '</h3>'; }
       else if ((m = s.match(/^#\s+(.*)$/))) { closeList(); html += '<h2>' + inline(m[1]) + '</h2>'; }
       else if ((m = s.match(/^[-*]\s+(.*)$/))) { if (!inList) { html += '<ul>'; inList = true; } html += '<li>' + inline(m[1]) + '</li>'; }
+      else if ((m = s.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/))) { closeList(); html += '<figure class="article-fig"><img src="' + m[2] + '" alt="' + m[1] + '" loading="lazy">' + (m[1] ? '<figcaption>' + inline(m[1]) + '</figcaption>' : '') + '</figure>'; }
       else { closeList(); html += '<p>' + inline(s) + '</p>'; }
     });
     closeList();

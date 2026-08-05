@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 372" font-family="'Noto Sans SC', system-ui, sans-serif">
+  <defs>
+    <marker id="arF" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#38BDF8"/></marker>
+    <marker id="arE" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#34D399"/></marker>
+    <marker id="arR" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#F87171"/></marker>
+  </defs>
+  <rect width="720" height="372" rx="14" fill="#0A0B0F"/>
+  <text x="24" y="34" fill="#F1F5F9" font-size="17" font-weight="600">图 5　PFC 反压 与 ECN 拥塞控制（RoCE 的无损之道）</text>
+  <line x1="24" y1="48" x2="696" y2="48" stroke="#FFFFFF" stroke-opacity="0.10"/>
+
+  <!-- Section A: PFC -->
+  <text x="24" y="74" fill="#F87171" font-size="13.5" font-weight="600">① PFC（基于优先级的流控）— 急刹车式反压</text>
+  <rect x="40" y="98" width="120" height="46" rx="9" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.18"/>
+  <text x="100" y="126" fill="#F1F5F9" font-size="13" text-anchor="middle">发送端</text>
+  <rect x="320" y="98" width="150" height="46" rx="9" fill="rgba(248,113,113,0.10)" stroke="#F87171"/>
+  <text x="395" y="118" fill="#F1F5F9" font-size="12.5" text-anchor="middle">交换机</text>
+  <text x="395" y="135" fill="#F87171" font-size="11" text-anchor="middle">缓存将满</text>
+  <!-- forward -->
+  <line x1="164" y1="132" x2="316" y2="132" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arF)"/>
+  <text x="240" y="148" fill="#94A3B8" font-size="11">数据持续发送</text>
+  <!-- reverse PFC -->
+  <line x1="316" y1="114" x2="166" y2="114" stroke="#F87171" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arR)"/>
+  <text x="240" y="108" fill="#F87171" font-size="11" text-anchor="middle">Pause 帧（反压，暂停上游）</text>
+  <text x="24" y="170" fill="#94A3B8" font-size="11.5">机制：缓存快溢出时向上游发 Pause 帧，上游暂停发送，避免丢包——但会带来队头阻塞与不公平。</text>
+
+  <!-- Section B: ECN -->
+  <text x="24" y="206" fill="#34D399" font-size="13.5" font-weight="600">② ECN（显式拥塞通知）— 温和降速</text>
+  <rect x="40" y="250" width="120" height="46" rx="9" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.18"/>
+  <text x="100" y="278" fill="#F1F5F9" font-size="13" text-anchor="middle">发送端</text>
+  <rect x="300" y="250" width="150" height="46" rx="9" fill="rgba(52,211,153,0.10)" stroke="#34D399"/>
+  <text x="375" y="270" fill="#F1F5F9" font-size="12.5" text-anchor="middle">交换机</text>
+  <text x="375" y="287" fill="#34D399" font-size="11" text-anchor="middle">轻微拥塞</text>
+  <rect x="560" y="250" width="120" height="46" rx="9" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.18"/>
+  <text x="620" y="278" fill="#F1F5F9" font-size="13" text-anchor="middle">接收端</text>
+  <!-- forward sender->switch -->
+  <line x1="164" y1="284" x2="296" y2="284" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arF)"/>
+  <text x="230" y="300" fill="#94A3B8" font-size="11">数据包</text>
+  <!-- forward switch->receiver (marked) -->
+  <line x1="454" y1="284" x2="556" y2="284" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arF)"/>
+  <text x="505" y="300" fill="#94A3B8" font-size="11" text-anchor="middle">带 ECN 标记包</text>
+  <!-- reverse CNP receiver->sender -->
+  <line x1="556" y1="264" x2="166" y2="264" stroke="#34D399" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arE)"/>
+  <text x="360" y="258" fill="#34D399" font-size="11" text-anchor="middle">CNP 拥塞通知（接收端回送）</text>
+  <text x="24" y="324" fill="#94A3B8" font-size="11.5">机制：轻微拥塞即给包打 ECN 标记，接收端回 CNP，发送端主动降速——比 PFC 更平滑，避免急停。</text>
+
+  <text x="24" y="356" fill="#94A3B8" font-size="11.5">RoCE 落地需同时配好 PFC 与 ECN，并配合 DCQCN 等端到端拥塞控制算法，才能稳定承载 RDMA。</text>
+</svg>

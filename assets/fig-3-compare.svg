@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="'Noto Sans SC', system-ui, sans-serif">
+  <rect width="720" height="430" rx="14" fill="#0A0B0F"/>
+  <text x="24" y="34" fill="#F1F5F9" font-size="17" font-weight="600">图 3　InfiniBand / RoCE / iWARP 与 TCP 对比</text>
+  <line x1="24" y1="48" x2="696" y2="48" stroke="#FFFFFF" stroke-opacity="0.10"/>
+
+  <!-- columns: 24..164 | 164..292 | 292..420 | 420..548 | 548..696 -->
+  <!-- header -->
+  <g font-size="13" font-weight="600" text-anchor="middle">
+    <rect x="24" y="64" width="140" height="34" rx="6" fill="#FFFFFF" fill-opacity="0.05"/>
+    <text x="94" y="85" fill="#94A3B8">维度</text>
+    <rect x="164" y="64" width="128" height="34" rx="6" fill="rgba(52,211,153,0.12)"/>
+    <text x="228" y="85" fill="#34D399">InfiniBand</text>
+    <rect x="292" y="64" width="128" height="34" rx="6" fill="rgba(56,189,248,0.12)"/>
+    <text x="356" y="85" fill="#38BDF8">RoCE</text>
+    <rect x="420" y="64" width="128" height="34" rx="6" fill="rgba(56,189,248,0.12)"/>
+    <text x="484" y="85" fill="#38BDF8">iWARP</text>
+    <rect x="548" y="64" width="148" height="34" rx="6" fill="#FFFFFF" fill-opacity="0.05"/>
+    <text x="622" y="85" fill="#94A3B8">传统 TCP</text>
+  </g>
+
+  <!-- grid + rows -->
+  <g font-size="11.5">
+    <!-- horizontal separators -->
+    <g stroke="#FFFFFF" stroke-opacity="0.08">
+      <line x1="24" y1="98" x2="696" y2="98"/>
+      <line x1="24" y1="136" x2="696" y2="136"/>
+      <line x1="24" y1="174" x2="696" y2="174"/>
+      <line x1="24" y1="212" x2="696" y2="212"/>
+      <line x1="24" y1="250" x2="696" y2="250"/>
+      <line x1="24" y1="288" x2="696" y2="288"/>
+      <line x1="24" y1="326" x2="696" y2="326"/>
+      <line x1="24" y1="364" x2="696" y2="364"/>
+      <line x1="24" y1="402" x2="696" y2="402"/>
+    </g>
+    <!-- vertical separators -->
+    <g stroke="#FFFFFF" stroke-opacity="0.08">
+      <line x1="164" y1="64" x2="164" y2="402"/>
+      <line x1="292" y1="64" x2="292" y2="402"/>
+      <line x1="420" y1="64" x2="420" y2="402"/>
+      <line x1="548" y1="64" x2="548" y2="402"/>
+    </g>
+
+    <!-- dimension labels (left, start) -->
+    <g fill="#F1F5F9" text-anchor="start" font-weight="500">
+      <text x="34" y="120">承载网络</text>
+      <text x="34" y="158">专用硬件</text>
+      <text x="34" y="196">典型单向延迟</text>
+      <text x="34" y="234">典型带宽</text>
+      <text x="34" y="272">CPU 开销</text>
+      <text x="34" y="310">无损要求</text>
+      <text x="34" y="348">部署难度</text>
+      <text x="34" y="386">典型场景</text>
+    </g>
+    <!-- value rows (center) -->
+    <g fill="#94A3B8" text-anchor="middle">
+      <!-- row1 -->
+      <text x="228" y="120">专用 IB 网络</text><text x="356" y="120">以太网</text><text x="484" y="120">以太网/TCP</text><text x="622" y="120">以太网/TCP</text>
+      <!-- row2 -->
+      <text x="228" y="158">HCA+IB 交换机</text><text x="356" y="158">RoCE 网卡</text><text x="484" y="158">标准网卡</text><text x="622" y="158">标准网卡</text>
+      <!-- row3 -->
+      <text x="228" y="196" fill="#34D399">亚微秒级</text><text x="356" y="196" fill="#34D399">几 μs</text><text x="484" y="196" fill="#FBBF24">数十 μs</text><text x="622" y="196" fill="#FBBF24">数十 μs</text>
+      <!-- row4 -->
+      <text x="228" y="234">最高(HDR/NDR)</text><text x="356" y="234">高</text><text x="484" y="234">中</text><text x="622" y="234">中</text>
+      <!-- row5 -->
+      <text x="228" y="272" fill="#34D399">极低</text><text x="356" y="272" fill="#34D399">低</text><text x="484" y="272">低~中</text><text x="622" y="272" fill="#FBBF24">高</text>
+      <!-- row6 -->
+      <text x="228" y="310">原生无损</text><text x="356" y="310">须(PFC/ECN)</text><text x="484" y="310">不需要</text><text x="622" y="310">不需要</text>
+      <!-- row7 -->
+      <text x="228" y="348">中(独立建网)</text><text x="356" y="348">较高(调优)</text><text x="484" y="348">低</text><text x="622" y="348">低</text>
+      <!-- row8 -->
+      <text x="228" y="386">HPC/AI 训练</text><text x="356" y="386">GPU 训练集群</text><text x="484" y="386">兼容场景</text><text x="622" y="386">通用业务</text>
+    </g>
+  </g>
+  <text x="24" y="424" fill="#94A3B8" font-size="11.5">注：InfiniBand 与 RoCE/iWARP 同属 RDMA 家族（绿底），核心价值是低延迟与低 CPU 开销；差异主要在承载网络与部署成本。</text>
+</svg>
