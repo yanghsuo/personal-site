@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 560" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38BDF8"/>
+    </marker>
+    <linearGradient id="glow2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#38BDF8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="860" height="560" rx="14" fill="#0A0B0F" stroke="#1E293B"/>
+  <rect x="1" y="1" width="858" height="86" rx="13" fill="url(#glow2)"/>
+
+  <text x="30" y="42" fill="#E2E8F0" font-size="19" font-weight="600" font-family="'Noto Sans SC',sans-serif">批量导入的依赖顺序：顺序是死的，不能乱</text>
+  <text x="30" y="68" fill="#94A3B8" font-size="12">每个对象都通过外键挂在上游对象上 · 先建上游，再建下游 · 脚本必须可重复执行（幂等）</text>
+
+  <!-- Left chain: dependency ladder -->
+  <g font-family="'Noto Sans SC',sans-serif">
+    <!-- 1 site -->
+    <rect x="60" y="110" width="240" height="52" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="76" y="132" fill="#38BDF8" font-size="11">01</text>
+    <text x="104" y="132" fill="#E2E8F0" font-size="14" font-weight="600">站点 Site</text>
+    <text x="76" y="151" fill="#94A3B8" font-size="11">slug: bj-17f / suzhou / shenzhen</text>
+
+    <line x1="180" y1="162" x2="180" y2="182" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arrow2)" opacity=".8"/>
+
+    <!-- 2 manufacturer -->
+    <rect x="60" y="186" width="240" height="52" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="76" y="208" fill="#38BDF8" font-size="11">02</text>
+    <text x="104" y="208" fill="#E2E8F0" font-size="14" font-weight="600">厂商 Manufacturer</text>
+    <text x="76" y="227" fill="#94A3B8" font-size="11">slug: fortinet · 一次创建全量复用</text>
+
+    <line x1="180" y1="238" x2="180" y2="258" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arrow2)" opacity=".8"/>
+
+    <!-- 3 device type -->
+    <rect x="60" y="262" width="240" height="52" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="76" y="284" fill="#38BDF8" font-size="11">03</text>
+    <text x="104" y="284" fill="#E2E8F0" font-size="14" font-weight="600">设备类型 Device Type</text>
+    <text x="76" y="303" fill="#94A3B8" font-size="11">依赖厂商 · 顺手建接口模板</text>
+
+    <line x1="180" y1="314" x2="180" y2="334" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arrow2)" opacity=".8"/>
+
+    <!-- 4 role/platform -->
+    <rect x="60" y="338" width="240" height="52" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="76" y="360" fill="#38BDF8" font-size="11">04</text>
+    <text x="104" y="360" fill="#E2E8F0" font-size="14" font-weight="600">角色 / 平台</text>
+    <text x="76" y="379" fill="#94A3B8" font-size="11">firewall · FortiOS</text>
+
+    <line x1="180" y1="390" x2="180" y2="410" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arrow2)" opacity=".8"/>
+
+    <!-- 5 device -->
+    <rect x="60" y="414" width="240" height="52" rx="10" fill="#0C1926" stroke="#38BDF8" stroke-width="1.4"/>
+    <text x="76" y="436" fill="#38BDF8" font-size="11">05</text>
+    <text x="104" y="436" fill="#E2E8F0" font-size="14" font-weight="600">设备 Device</text>
+    <text x="76" y="455" fill="#94A3B8" font-size="11">依赖 站点+类型+角色+平台</text>
+
+    <line x1="180" y1="466" x2="180" y2="486" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arrow2)" opacity=".8"/>
+
+    <!-- 6 interface + ip -->
+    <rect x="60" y="490" width="240" height="52" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="76" y="512" fill="#38BDF8" font-size="11">06</text>
+    <text x="104" y="512" fill="#E2E8F0" font-size="14" font-weight="600">接口 → IP 地址</text>
+    <text x="76" y="531" fill="#94A3B8" font-size="11">IP 挂接口 · 设备设 primary_ip4</text>
+  </g>
+
+  <!-- Right panel: rules -->
+  <g font-family="'Noto Sans SC',sans-serif">
+    <rect x="380" y="110" width="450" height="200" rx="12" fill="#0F1520" stroke="#334155"/>
+    <text x="404" y="140" fill="#E2E8F0" font-size="14" font-weight="600">get_or_create 模式（脚本幂等的关键）</text>
+    <text x="404" y="168" fill="#94A3B8" font-size="12">先 endpoint.get(**match) 查询：</text>
+    <text x="420" y="190" fill="#7DD3FC" font-size="12">· 命中 → 直接复用，不重复创建</text>
+    <text x="420" y="212" fill="#7DD3FC" font-size="12">· 未命中 → create({match + defaults})</text>
+    <text x="404" y="244" fill="#94A3B8" font-size="12">重跑脚本不再撞 duplicate（400）报错，</text>
+    <text x="404" y="264" fill="#94A3B8" font-size="12">增量补数据也走同一条路径。</text>
+    <text x="404" y="292" fill="#64748B" font-size="11">设备类型接口模板：nb.dcim.interface_templates.create([...])</text>
+
+    <rect x="380" y="330" width="450" height="132" rx="12" fill="#1A0F0F" stroke="#7F1D1D"/>
+    <text x="404" y="360" fill="#FCA5A5" font-size="14" font-weight="600">两个高频 422 的原因</text>
+    <text x="404" y="388" fill="#94A3B8" font-size="12">① slug 只认小写字母、数字、连字符 ——</text>
+    <text x="420" y="408" fill="#94A3B8" font-size="12">台账里的大写、下划线、中文必须先清洗</text>
+    <text x="404" y="434" fill="#94A3B8" font-size="12">② 外键 ID 不存在 —— 上游对象还没建就先建了下游</text>
+
+    <rect x="380" y="482" width="450" height="60" rx="12" fill="#0C1926" stroke="#38BDF8" stroke-width="1.2"/>
+    <text x="404" y="508" fill="#E2E8F0" font-size="13" font-weight="600">建议：先导一张小表跑通链路，再上全量</text>
+    <text x="404" y="528" fill="#94A3B8" font-size="11">字段映射确认无误后，几百台设备只是循环次数的区别</text>
+  </g>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38BDF8"/>
+    </marker>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#38BDF8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="860" height="470" rx="14" fill="#0A0B0F" stroke="#1E293B"/>
+  <rect x="1" y="1" width="858" height="90" rx="13" fill="url(#glow)"/>
+
+  <text x="30" y="44" fill="#E2E8F0" font-size="19" font-weight="600" font-family="'Noto Sans SC',sans-serif">源码安装后的 NetBox 运行架构</text>
+  <text x="30" y="70" fill="#94A3B8" font-size="12">Nginx :80/:443 → Gunicorn (unix socket) → NetBox · PostgreSQL · Redis · netbox-rq</text>
+
+  <!-- Row 1: client -->
+  <g>
+    <rect x="60" y="110" width="180" height="64" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="150" y="137" text-anchor="middle" fill="#E2E8F0" font-size="14" font-weight="600" font-family="'Noto Sans SC',sans-serif">浏览器 / API 客户端</text>
+    <text x="150" y="158" text-anchor="middle" fill="#94A3B8" font-size="11">pynetbox 脚本</text>
+  </g>
+
+  <!-- Row 1: nginx -->
+  <g>
+    <rect x="340" y="110" width="180" height="64" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="430" y="137" text-anchor="middle" fill="#E2E8F0" font-size="14" font-weight="600" font-family="'Noto Sans SC',sans-serif">Nginx</text>
+    <text x="430" y="158" text-anchor="middle" fill="#94A3B8" font-size="11">client_max_body_size 25m</text>
+  </g>
+
+  <!-- Row 1: gunicorn -->
+  <g>
+    <rect x="620" y="110" width="180" height="64" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="710" y="137" text-anchor="middle" fill="#E2E8F0" font-size="14" font-weight="600" font-family="'Noto Sans SC',sans-serif">Gunicorn</text>
+    <text x="710" y="158" text-anchor="middle" fill="#94A3B8" font-size="11">/run/netbox/gunicorn.sock</text>
+  </g>
+
+  <line x1="240" y1="142" x2="336" y2="142" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arrow)" opacity=".8"/>
+  <line x1="520" y1="142" x2="616" y2="142" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arrow)" opacity=".8"/>
+
+  <!-- Row 2: netbox app -->
+  <g>
+    <rect x="620" y="220" width="180" height="64" rx="10" fill="#0C1926" stroke="#38BDF8" stroke-width="1.4"/>
+    <text x="710" y="247" text-anchor="middle" fill="#E2E8F0" font-size="14" font-weight="600" font-family="'Noto Sans SC',sans-serif">NetBox（Django）</text>
+    <text x="710" y="268" text-anchor="middle" fill="#38BDF8" font-size="11">/opt/netbox · venv · systemd</text>
+  </g>
+
+  <line x1="710" y1="174" x2="710" y2="216" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arrow)" opacity=".8"/>
+
+  <!-- Row 2: static files note -->
+  <g>
+    <rect x="340" y="220" width="180" height="64" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="430" y="247" text-anchor="middle" fill="#E2E8F0" font-size="13" font-weight="600" font-family="'Noto Sans SC',sans-serif">静态文件 /static/</text>
+    <text x="430" y="268" text-anchor="middle" fill="#94A3B8" font-size="11">collectstatic 生成</text>
+  </g>
+  <line x1="430" y1="174" x2="430" y2="216" stroke="#475569" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrow)" opacity=".7"/>
+
+  <!-- Row 3: backends -->
+  <g>
+    <rect x="60" y="330" width="200" height="72" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="160" y="358" text-anchor="middle" fill="#E2E8F0" font-size="14" font-weight="600" font-family="'Noto Sans SC',sans-serif">PostgreSQL 15</text>
+    <text x="160" y="380" text-anchor="middle" fill="#94A3B8" font-size="11">库 netbox · PG15 注意 public schema 授权</text>
+  </g>
+  <g>
+    <rect x="330" y="330" width="200" height="72" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="430" y="358" text-anchor="middle" fill="#E2E8F0" font-size="14" font-weight="600" font-family="'Noto Sans SC',sans-serif">Redis 7</text>
+    <text x="430" y="380" text-anchor="middle" fill="#94A3B8" font-size="11">caching + tasks（密码与配置一致）</text>
+  </g>
+  <g>
+    <rect x="600" y="330" width="200" height="72" rx="10" fill="#0F1520" stroke="#334155"/>
+    <text x="700" y="358" text-anchor="middle" fill="#E2E8F0" font-size="14" font-weight="600" font-family="'Noto Sans SC',sans-serif">netbox-rq worker</text>
+    <text x="700" y="380" text-anchor="middle" fill="#94A3B8" font-size="11">systemd 单独守护 · 消费任务队列</text>
+  </g>
+
+  <line x1="650" y1="284" x2="220" y2="326" stroke="#38BDF8" stroke-width="1.4" marker-end="url(#arrow)" opacity=".65"/>
+  <line x1="690" y1="284" x2="445" y2="326" stroke="#38BDF8" stroke-width="1.4" marker-end="url(#arrow)" opacity=".65"/>
+  <line x1="445" y1="402" x2="676" y2="402" stroke="#475569" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrow)" opacity=".7"/>
+  <text x="560" y="394" text-anchor="middle" fill="#94A3B8" font-size="10.5">队列消费</text>
+
+  <text x="30" y="446" fill="#64748B" font-size="11">图 8 · 管理员视角的完整请求链路：每一层都可独立查看日志定位问题</text>
+</svg>
