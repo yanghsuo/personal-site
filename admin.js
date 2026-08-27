@@ -20,22 +20,65 @@
   }
 
   // 轻量 Markdown -> HTML（先转义再做行内/块级转换；支持 #/##/### 标题、
-  // **粗体**、*斜体*、`代码`、- 列表，以及段落与换行）。供子页正文与后台预览共用。
+  // **粗体**、*斜体*、`代码`、- 列表、``` 多行代码块、| 表格、![图注](路径) 图片，
+  // 以及段落与换行）。供子页正文与后台预览共用。
   function md2html(src) {
     if (!src) return '';
     var text = esc(src);
-    var codes = [];
-    text = text.replace(/`([^`]+)`/g, function (m, c) { codes.push(c); return '\u0000' + (codes.length - 1) + '\u0000'; });
-    var lines = text.split(/\r?\n/);
-    var html = '', inList = false;
+    var blocks = []; // 提取出的代码块，占位符 \u0001N\u0001
+
+    // 1) 先提取 ``` fenced 代码块（须先于行内反引号处理，避免反引号误配对）
+    text = text.replace(/```([^\n`]*)\n?([\s\S]*?)```/g, function (m, lang, code) {
+      var cls = lang ? ' class="lang-' + lang + '"' : '';
+      blocks.push('<pre class="code-block"><code' + cls + '>' + code.replace(/\n+$/, '') + '</code></pre>');
+      return '\u0001' + (blocks.length - 1) + '\u0001';
+    });
+
+    // 2) 行内样式（粗体 / 斜体 / 行内代码）
     function inline(t) {
-      return t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      var codes = [];
+      t = t.replace(/`([^`]+)`/g, function (m, c) { codes.push(c); return '\u0002' + (codes.length - 1) + '\u0002'; });
+      t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      t = t.replace(/\u0002(\d+)\u0002/g, function (mm, i) { return '<code>' + codes[+i] + '</code>'; });
+      return t;
     }
+
+    // 3) 逐行解析块级结构
+    var lines = text.split(/\r?\n/);
+    var html = '', inList = false, tableRows = null;
+
     function closeList() { if (inList) { html += '</ul>'; inList = false; } }
+    function isSepRow(r) { return /^[\s|:|-]*$/.test(r) && r.indexOf('-') > -1; }
+    function flushTable() {
+      if (!tableRows) return;
+      var rows = tableRows.filter(function (r) { return r.trim() !== ''; });
+      function cells(r) {
+        return r.replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|').map(function (c) { return inline(c.trim()); });
+      }
+      html += '<table>';
+      var headerDone = false;
+      rows.forEach(function (r) {
+        if (isSepRow(r)) return;
+        var tag = headerDone ? 'td' : 'th';
+        headerDone = true;
+        html += '<tr>' + cells(r).map(function (c) { return '<' + tag + '>' + c + '</' + tag + '>'; }).join('') + '</tr>';
+      });
+      html += '</table>';
+      tableRows = null;
+    }
+
     lines.forEach(function (line) {
       var s = line.trim();
       var m;
-      if (!s) { closeList(); return; }
+      if (!s) { flushTable(); closeList(); return; }
+      // 表格行：以 | 开头并结尾
+      if (s.charAt(0) === '|' && s.charAt(s.length - 1) === '|') {
+        closeList();
+        if (!tableRows) tableRows = [];
+        tableRows.push(s);
+        return;
+      }
+      flushTable();
       if ((m = s.match(/^###\s+(.*)$/))) { closeList(); html += '<h4>' + inline(m[1]) + '</h4>'; }
       else if ((m = s.match(/^##\s+(.*)$/))) { closeList(); html += '<h3>' + inline(m[1]) + '</h3>'; }
       else if ((m = s.match(/^#\s+(.*)$/))) { closeList(); html += '<h2>' + inline(m[1]) + '</h2>'; }
@@ -43,8 +86,11 @@
       else if ((m = s.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/))) { closeList(); html += '<figure class="article-fig"><img src="' + m[2] + '" alt="' + m[1] + '" loading="lazy">' + (m[1] ? '<figcaption>' + inline(m[1]) + '</figcaption>' : '') + '</figure>'; }
       else { closeList(); html += '<p>' + inline(s) + '</p>'; }
     });
+    flushTable();
     closeList();
-    html = html.replace(/\u0000(\d+)\u0000/g, function (mm, i) { return '<code>' + codes[+i] + '</code>'; });
+
+    // 4) 还原代码块占位符
+    html = html.replace(/\u0001(\d+)\u0001/g, function (mm, i) { return blocks[+i]; });
     return html;
   }
 

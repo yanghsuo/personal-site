@@ -51,6 +51,26 @@
   .article-body li { margin: 6px 0; color: var(--text-dim); }
   .article-body code { font-family: var(--font-mono); background: var(--glass-strong); padding: 2px 7px; border-radius: 6px; color: var(--accent); font-size: 13.5px; }
   .article-body strong { color: var(--text); }
+  /* 多行代码块（``` 语法） */
+  .article-body pre.code-block {
+    margin: 18px 0; padding: 16px 18px;
+    background: var(--glass); border: 1px solid var(--line);
+    border-radius: 12px; overflow-x: auto;
+  }
+  .article-body pre.code-block code {
+    font-family: var(--font-mono); font-size: 13px; line-height: 1.7;
+    color: #C9D6E5; background: none; padding: 0; border-radius: 0;
+  }
+  /* 表格（| 语法） */
+  .article-body table {
+    width: 100%; margin: 18px 0; border-collapse: collapse;
+    font-size: 14px; display: block; overflow-x: auto;
+  }
+  .article-body th, .article-body td {
+    border: 1px solid var(--line); padding: 8px 12px; text-align: left;
+  }
+  .article-body th { background: var(--glass-strong); color: var(--text); font-weight: 600; }
+  .article-body td { color: var(--text-dim); }
   /* 文章内图表（md2html 的 ![图注](路径) 渲染为 figure） */
   .article-body figure.article-fig { margin: 30px 0; text-align: center; }
   .article-body figure.article-fig img {
