@@ -30,6 +30,9 @@
     font-weight: 600; font-size: 16px; margin-bottom: 12px;
   }
   .adm-card-head .btn { margin-left: auto; }
+  .adm-list-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .adm-item { flex-wrap: wrap; }
+  .adm-item-main { flex: 1 1 230px; }
   .adm-caret { color: var(--text-dim); transition: transform .2s; display: inline-block; }
   .adm-caret.collapsed { transform: rotate(-90deg); }
   .adm-form label { display: block; font-size: 13.5px; color: var(--text-dim); margin: 14px 0 6px; }
@@ -119,8 +122,13 @@
   <section class="adm-card">
     <div class="adm-card-head">
       <span>文章列表</span>
-      <button class="btn btn-primary small" id="newBtn">＋ 新建文章</button>
+      <div class="adm-list-actions">
+        <button class="btn btn-ghost small" id="newBtn">＋ 新建文章</button>
+        <button class="btn btn-primary small" id="publishChangesBtn">发布更改</button>
+      </div>
     </div>
+    <p class="adm-note">删除需要确认；确认后先保存为本地草稿，点击「发布更改」才会从网站移除。首次发布请先配置 GitHub Token。</p>
+    <p class="adm-status" id="status" role="status" aria-live="polite"></p>
     <div class="adm-list" id="articleList"></div>
   </section>
 
@@ -146,9 +154,8 @@
         <button class="btn btn-primary small" id="saveBtn">保存到本地</button>
         <button class="btn small" id="publishBtn">🚀 发布到 GitHub</button>
         <button class="btn btn-ghost small" id="cancelBtn">取消</button>
-        <button class="btn btn-ghost adm-danger small" id="delBtn">删除</button>
+        <button class="btn btn-ghost adm-danger small" id="delBtn">删除文章</button>
       </div>
-      <p class="adm-status" id="status"></p>
     </div>
   </section>
 
@@ -156,6 +163,6 @@
 
 <script src="content.js?v=04a434750930"></script>
 <script src="admin.js"></script>
-<script src="admin-app.js"></script>
+<script src="admin-app.js?v=delete-20261026-1"></script>
 </body>
 </html>

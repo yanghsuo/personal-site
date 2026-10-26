@@ -25,6 +25,7 @@
   );
 
   var editIndex = null; // null = 新建
+  var publishing = false;
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
@@ -97,7 +98,7 @@
   // ---------- 保存到本地草稿 ----------
   function saveLocal() {
     var a = collect();
-    if (editIndex == null) state.articles.unshift(a);
+    if (editIndex == null) { state.articles.unshift(a); editIndex = 0; }
     else state.articles[editIndex] = a;
     saveDraft();
     renderList();
@@ -105,13 +106,15 @@
   }
 
   function delArticle(i) {
-    if (i == null) return;
-    if (!confirm('确认删除「' + (state.articles[i].title || '该文章') + '」？')) return;
+    if (publishing || i == null || !state.articles[i]) return;
+    if (!confirm('确认删除「' + (state.articles[i].title || '该文章') + '」？\n删除将先保存到本地，点击「发布更改」后才会从网站移除。')) return;
     state.articles.splice(i, 1);
     saveDraft();
     renderList();
     $('editorCard').hidden = true;
-    setStatus('已删除（仅本地草稿，发布后才会从线上移除）。', true);
+    editIndex = null;
+    setStatus('已从本地草稿删除。请点击「发布更改」，将删除同步到网站。', true);
+    $('publishChangesBtn').focus();
   }
 
   // ---------- 生成 content.js 文本（整体写回，保留其它板块） ----------
@@ -130,12 +133,22 @@
     return h;
   }
 
+  function setPublishing(busy) {
+    publishing = busy;
+    ['newBtn', 'saveBtn', 'publishBtn', 'publishChangesBtn', 'cancelBtn', 'delBtn', 'pullBtn', 'saveSettings'].forEach(function (id) {
+      $(id).disabled = busy;
+    });
+    Array.prototype.forEach.call($('articleList').querySelectorAll('button'), function (button) { button.disabled = busy; });
+  }
+
   // ---------- 发布到 GitHub ----------
   function publish() {
+    if (publishing) return;
     // 编辑器还开着时，先把当前编辑并入 state
     if (!$('editorCard').hidden) {
       var a = collect();
-      if (editIndex == null) state.articles.unshift(a); else state.articles[editIndex] = a;
+      if (editIndex == null) { state.articles.unshift(a); editIndex = 0; }
+      else state.articles[editIndex] = a;
       saveDraft(); renderList();
     }
     if (!settings.token) {
@@ -145,15 +158,23 @@
       $('settingsBody').scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
+    var publishedState = JSON.parse(JSON.stringify(state));
     var content = buildContentJS();
+    setPublishing(true);
     var base = 'https://api.github.com/repos/' + settings.owner + '/' + settings.repo + '/contents/' + settings.path;
     setStatus('正在发布…');
-    fetch(base + '?ref=' + settings.branch, { headers: ghHeaders() })
+    fetch(base + '?ref=' + encodeURIComponent(settings.branch), { headers: ghHeaders(), cache: 'no-store' })
       .then(function (r) {
         if (!r.ok) return r.json().then(function (j) { throw new Error(j.message || ('HTTP ' + r.status)); });
         return r.json();
       })
       .then(function (meta) {
+        if (!meta.content || meta.encoding !== 'base64') throw new Error('无法核对线上内容，请先从仓库拉取最新内容。');
+        var remoteText = decodeURIComponent(escape(atob(meta.content.replace(/\s/g, ''))));
+        var match = remoteText.match(/const\s+SITE\s*=\s*([\s\S]*);\s*$/);
+        if (!match || JSON.stringify(JSON.parse(match[1])) !== JSON.stringify(SITE0)) {
+          throw new Error('线上内容已有更新，为避免覆盖其他文章，请先备份本地草稿，再从仓库拉取最新内容。');
+        }
         return fetch(base, {
           method: 'PUT',
           headers: ghHeaders({ 'Content-Type': 'application/json' }),
@@ -170,12 +191,14 @@
         return r.json();
       })
       .then(function () {
+        SITE0 = publishedState;
         clearDraft();
         setStatus('✅ 已发布！GitHub Pages 约 1–2 分钟自动生效。', true);
       })
       .catch(function (err) {
         setStatus('发布失败：' + err.message, false);
-      });
+      })
+      .then(function () { setPublishing(false); });
   }
 
   // ---------- 从仓库拉取最新内容 ----------
@@ -188,14 +211,17 @@
     var raw = 'https://raw.githubusercontent.com/' + settings.owner + '/' + settings.repo + '/' +
       settings.branch + '/' + settings.path;
     setStatus('正在从仓库拉取最新内容…');
-    fetch(raw)
+    fetch(raw, { cache: 'no-store' })
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
       .then(function (txt) {
         var src = txt.replace(/const\s+SITE\s*=/, 'window.__SITE__ =');
         /* eslint-disable no-eval */
         eval(src);
         /* eslint-enable no-eval */
-        state = JSON.parse(JSON.stringify(window.__SITE__));
+        SITE0 = JSON.parse(JSON.stringify(window.__SITE__));
+        state = JSON.parse(JSON.stringify(SITE0));
+        editIndex = null;
+        $('editorCard').hidden = true;
         saveDraft();
         renderList();
         setStatus('已拉取仓库最新内容到本地。', true);
@@ -208,11 +234,13 @@
     $('newBtn').onclick = function () { openEditor(null); };
     $('saveBtn').onclick = saveLocal;
     $('publishBtn').onclick = publish;
+    $('publishChangesBtn').onclick = publish;
     $('cancelBtn').onclick = function () { $('editorCard').hidden = true; setStatus(''); };
     $('delBtn').onclick = function () { delArticle(editIndex); };
     $('fBody').oninput = updatePreview;
 
     $('articleList').onclick = function (e) {
+      if (publishing) return;
       var ed = e.target.closest('[data-edit]');
       if (ed) { openEditor(parseInt(ed.getAttribute('data-edit'), 10)); return; }
       var dl = e.target.closest('[data-del]');
@@ -247,6 +275,20 @@
     $('setPath').value = settings.path;
     bind();
     renderList();
+    var params = new URLSearchParams(location.search);
+    var targetDate = params.get('delete');
+    var targetTitle = params.get('title');
+    if (targetDate) {
+      var index = state.articles.findIndex(function (a) {
+        return a.date === targetDate && a.title === targetTitle;
+      });
+      if (index < 0) setStatus('没有找到要删除的文章，可能已删除或本地草稿与线上不同。请核对文章列表。', false);
+      else {
+        openEditor(index);
+        setStatus('已定位到「' + state.articles[index].title + '」。点击编辑区的「删除文章」并确认，再点击「发布更改」同步到网站。');
+        $('delBtn').focus({ preventScroll: true });
+      }
+    }
   }
 
   init();
