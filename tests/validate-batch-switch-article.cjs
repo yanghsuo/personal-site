@@ -6,6 +6,10 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const root = path.resolve(__dirname, '..');
+for (const page of ['index.html', 'articles.html', 'article.html', 'admin.html']) {
+  const html = fs.readFileSync(path.join(root, page), 'utf8');
+  assert.ok(html.includes('<script src="content.js?v=20261105-batch-switch-1"></script>'), `${page} must load the refreshed article content`);
+}
 const context = vm.createContext({
   window: {},
   document: { querySelector: () => null, querySelectorAll: () => [] },
